@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E5D80DDEE5FE57F3D2609B0B54D908D /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */; };
+		28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */; };
+		2A33E997D625F1127BB7BAD4F48591C8 /* ManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */; };
+		30FE881440D8987923372F0B039D5769 /* Pods-Bagua_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */; };
+		51479C8D0339DADFDF7896D59892A988 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */; };
+		5AC8CA4BC53BBAF39FBF1F3C3656F506 /* Pods-Bagua_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D542E0F1C79AFC4C1A544083233A92 /* Pods-Bagua_Example-dummy.m */; };
+		5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */; };
+		795057ADD2825E9DFFF56033FCEE6B83 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98B8B388E22951CDDBF1075280A60A /* Request.swift */; };
+		7B1ACFB55AC4924B0C059D8EA1E554F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */; };
+		905A51EF7E9A7EB80E288A554858C4A7 /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBC7405327B237DF4176048D03152EF /* Equatable.swift */; };
+		919DDFBACAB06BE044B042023B290A42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */; };
+		9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */; };
+		C5F3519C9C1B3E1E9BA08BDA804E33F9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */; };
+		F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */; };
+		FC30DA72D4B9D0AEA649530AD4F1A0F5 /* Bagua-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9E8606815BEC5D1111869C7FAC5F1A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA3FA7B53BE216F024F1F8B834012F64;
+			remoteInfo = Bagua;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		005A5A076CA123D9F77E6D35AF9FC44B /* Pods-Bagua_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bagua_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collection.swift; path = Bagua/Classes/Collection.swift; sourceTree = "<group>"; };
+		0DF150A12D4980F9E7B5031E5412719A /* Pods-Bagua_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.release.xcconfig"; sourceTree = "<group>"; };
+		16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		179EC150BE73B7994A6541E1C4FB6139 /* Bagua.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = Bagua.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		1E226A1D28CEAFC226C3FB2CAAB63478 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CacheContract .swift"; path = "Bagua/Classes/CacheContract .swift"; sourceTree = "<group>"; };
+		36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecyclerController.swift; path = Bagua/Classes/RecyclerController.swift; sourceTree = "<group>"; };
+		37B1DD84EBF0E9265BD8786DE525C709 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-umbrella.h"; sourceTree = "<group>"; };
+		5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bagua_Example.framework; path = "Pods-Bagua_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ManagedObject.swift; path = Bagua/Classes/ManagedObject.swift; sourceTree = "<group>"; };
+		56496A6AFA76089C261CB3354AFEF585 /* Bagua-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-prefix.pch"; sourceTree = "<group>"; };
+		619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSFetchedResultsControllerDelegate.swift; path = Bagua/Classes/NSFetchedResultsControllerDelegate.swift; sourceTree = "<group>"; };
+		64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DAO.swift; path = Bagua/Classes/DAO.swift; sourceTree = "<group>"; };
+		6A98B8B388E22951CDDBF1075280A60A /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Bagua/Classes/Request.swift; sourceTree = "<group>"; };
+		6BE83978C6E46C90F00587AF00DE95ED /* Bagua.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Bagua.framework; path = Bagua.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72FCC042D28A9C0D500D242CC06567DD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		74BE1459DB06BD3BE128AF3E784374A2 /* Pods-Bagua_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bagua_Example-resources.sh"; sourceTree = "<group>"; };
+		74F8565E0C06AD86E545AA5854B567DC /* Pods-Bagua_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bagua_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		874C32A5B0D422595778A0DA883DA95F /* Pods-Bagua_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bagua_Example.modulemap"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		94D542E0F1C79AFC4C1A544083233A92 /* Pods-Bagua_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bagua_Example-dummy.m"; sourceTree = "<group>"; };
+		9CD3A897A7F4BC173F818DE64A8396DB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Bagua-dummy.m"; sourceTree = "<group>"; };
+		B94043A3E8B237C9884F097DBC8A1256 /* Bagua.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Bagua.modulemap; sourceTree = "<group>"; };
+		BC6D37929C68A53526F2AD3B80EB86C9 /* Bagua.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Bagua.xcconfig; sourceTree = "<group>"; };
+		BD1957ECB8AD7154B217D23EE89F014F /* Pods-Bagua_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bagua_Example-frameworks.sh"; sourceTree = "<group>"; };
+		C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = Bagua/Classes/Transaction.swift; sourceTree = "<group>"; };
+		C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bagua_Example-umbrella.h"; sourceTree = "<group>"; };
+		FBBC7405327B237DF4176048D03152EF /* Equatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Equatable.swift; path = Bagua/Classes/Equatable.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1BA99AFDD1902D8847B57EFAEAC79D85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				919DDFBACAB06BE044B042023B290A42 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6E4AA8EB05031EC383246602387A8DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5F3519C9C1B3E1E9BA08BDA804E33F9 /* CoreData.framework in Frameworks */,
+				7B1ACFB55AC4924B0C059D8EA1E554F8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		345414C5BFC74E45328226C109DE8428 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BE83978C6E46C90F00587AF00DE95ED /* Bagua.framework */,
+				5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3154A965F8FF503ECA8029207AC9FE3 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4CB7C473FE760FA567CE862350D8FBB4 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				179EC150BE73B7994A6541E1C4FB6139 /* Bagua.podspec */,
+				72FCC042D28A9C0D500D242CC06567DD /* LICENSE */,
+				37B1DD84EBF0E9265BD8786DE525C709 /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		7BE2E2C731D123E2610C823DB9185F0C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B94043A3E8B237C9884F097DBC8A1256 /* Bagua.modulemap */,
+				BC6D37929C68A53526F2AD3B80EB86C9 /* Bagua.xcconfig */,
+				B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */,
+				56496A6AFA76089C261CB3354AFEF585 /* Bagua-prefix.pch */,
+				4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */,
+				9CD3A897A7F4BC173F818DE64A8396DB /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/Bagua";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				C8004988CBBD954648F66880DC61109D /* Development Pods */,
+				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
+				345414C5BFC74E45328226C109DE8428 /* Products */,
+				A00EBB1248E553072F7D4CF2574C055C /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		A00EBB1248E553072F7D4CF2574C055C /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A59B38E4D171BB6EAE9D0B70D0B948DD /* Pods-Bagua_Example */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		A59B38E4D171BB6EAE9D0B70D0B948DD /* Pods-Bagua_Example */ = {
+			isa = PBXGroup;
+			children = (
+				1E226A1D28CEAFC226C3FB2CAAB63478 /* Info.plist */,
+				874C32A5B0D422595778A0DA883DA95F /* Pods-Bagua_Example.modulemap */,
+				005A5A076CA123D9F77E6D35AF9FC44B /* Pods-Bagua_Example-acknowledgements.markdown */,
+				74F8565E0C06AD86E545AA5854B567DC /* Pods-Bagua_Example-acknowledgements.plist */,
+				94D542E0F1C79AFC4C1A544083233A92 /* Pods-Bagua_Example-dummy.m */,
+				BD1957ECB8AD7154B217D23EE89F014F /* Pods-Bagua_Example-frameworks.sh */,
+				74BE1459DB06BD3BE128AF3E784374A2 /* Pods-Bagua_Example-resources.sh */,
+				D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */,
+				C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */,
+				0DF150A12D4980F9E7B5031E5412719A /* Pods-Bagua_Example.release.xcconfig */,
+			);
+			name = "Pods-Bagua_Example";
+			path = "Target Support Files/Pods-Bagua_Example";
+			sourceTree = "<group>";
+		};
+		B2535E696BCE0C4E5BCC287ABC28141D /* Bagua */ = {
+			isa = PBXGroup;
+			children = (
+				368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */,
+				054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */,
+				64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */,
+				FBBC7405327B237DF4176048D03152EF /* Equatable.swift */,
+				516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */,
+				619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */,
+				36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */,
+				6A98B8B388E22951CDDBF1075280A60A /* Request.swift */,
+				C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */,
+				4CB7C473FE760FA567CE862350D8FBB4 /* Pod */,
+				7BE2E2C731D123E2610C823DB9185F0C /* Support Files */,
+			);
+			name = Bagua;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		C8004988CBBD954648F66880DC61109D /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B2535E696BCE0C4E5BCC287ABC28141D /* Bagua */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		D3154A965F8FF503ECA8029207AC9FE3 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */,
+				27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B0910F01F6D311E20CE7F3A7554DCF3D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30FE881440D8987923372F0B039D5769 /* Pods-Bagua_Example-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0238D49FCAB0A4498E6F4560CE297D3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC30DA72D4B9D0AEA649530AD4F1A0F5 /* Bagua-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		A23C338F9FE05F7D83695F8271981BF2 /* Pods-Bagua_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1F6735A97181A746C72546CE855A11C /* Build configuration list for PBXNativeTarget "Pods-Bagua_Example" */;
+			buildPhases = (
+				B0910F01F6D311E20CE7F3A7554DCF3D /* Headers */,
+				1B1D469C88986EEF92544751C05F4792 /* Sources */,
+				1BA99AFDD1902D8847B57EFAEAC79D85 /* Frameworks */,
+				DE61F0C1E75329FDB912CCADDE776CCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3C7F0CEE0A4C8EB2D4D812DB6D1209A /* PBXTargetDependency */,
+			);
+			name = "Pods-Bagua_Example";
+			productName = "Pods-Bagua_Example";
+			productReference = 5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CA3FA7B53BE216F024F1F8B834012F64 /* Bagua */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70D6EAC540F65FD002DAF9A29C87B695 /* Build configuration list for PBXNativeTarget "Bagua" */;
+			buildPhases = (
+				F0238D49FCAB0A4498E6F4560CE297D3 /* Headers */,
+				0D3399C305C59AB7A3561F365449C2B9 /* Sources */,
+				E6E4AA8EB05031EC383246602387A8DE /* Frameworks */,
+				17B6AD4D416DEE0F2F7A50ECB8AADD4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Bagua;
+			productName = Bagua;
+			productReference = 6BE83978C6E46C90F00587AF00DE95ED /* Bagua.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 345414C5BFC74E45328226C109DE8428 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CA3FA7B53BE216F024F1F8B834012F64 /* Bagua */,
+				A23C338F9FE05F7D83695F8271981BF2 /* Pods-Bagua_Example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		17B6AD4D416DEE0F2F7A50ECB8AADD4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE61F0C1E75329FDB912CCADDE776CCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D3399C305C59AB7A3561F365449C2B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */,
+				5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */,
+				9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */,
+				0E5D80DDEE5FE57F3D2609B0B54D908D /* DAO.swift in Sources */,
+				905A51EF7E9A7EB80E288A554858C4A7 /* Equatable.swift in Sources */,
+				2A33E997D625F1127BB7BAD4F48591C8 /* ManagedObject.swift in Sources */,
+				37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */,
+				28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */,
+				795057ADD2825E9DFFF56033FCEE6B83 /* Request.swift in Sources */,
+				51479C8D0339DADFDF7896D59892A988 /* Transaction.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B1D469C88986EEF92544751C05F4792 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AC8CA4BC53BBAF39FBF1F3C3656F506 /* Pods-Bagua_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D3C7F0CEE0A4C8EB2D4D812DB6D1209A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Bagua;
+			target = CA3FA7B53BE216F024F1F8B834012F64 /* Bagua */;
+			targetProxy = E9E8606815BEC5D1111869C7FAC5F1A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0D30D682ADABD3C345370B10A09B46C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bagua_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Bagua_Example/Pods-Bagua_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		389F40853BAB53F13ACBD96E256A083E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC6D37929C68A53526F2AD3B80EB86C9 /* Bagua.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Bagua/Bagua-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Bagua/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Bagua/Bagua.modulemap";
+				PRODUCT_MODULE_NAME = Bagua;
+				PRODUCT_NAME = Bagua;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8DDFA5FA8D4131BFD96E5E26F3672644 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		B04A96B10457258D761B76865337B44F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DF150A12D4980F9E7B5031E5412719A /* Pods-Bagua_Example.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bagua_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Bagua_Example/Pods-Bagua_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D5F759C82752B2EB010DB3CD3D69707C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		E5EA2851CAE96436EE85FE63C3546C9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC6D37929C68A53526F2AD3B80EB86C9 /* Bagua.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Bagua/Bagua-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Bagua/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Bagua/Bagua.modulemap";
+				PRODUCT_MODULE_NAME = Bagua;
+				PRODUCT_NAME = Bagua;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8DDFA5FA8D4131BFD96E5E26F3672644 /* Debug */,
+				D5F759C82752B2EB010DB3CD3D69707C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70D6EAC540F65FD002DAF9A29C87B695 /* Build configuration list for PBXNativeTarget "Bagua" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				389F40853BAB53F13ACBD96E256A083E /* Debug */,
+				E5EA2851CAE96436EE85FE63C3546C9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1F6735A97181A746C72546CE855A11C /* Build configuration list for PBXNativeTarget "Pods-Bagua_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D30D682ADABD3C345370B10A09B46C7 /* Debug */,
+				B04A96B10457258D761B76865337B44F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

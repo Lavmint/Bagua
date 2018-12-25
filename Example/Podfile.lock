@@ -1,0 +1,16 @@
+PODS:
+  - Bagua (0.1.0)
+
+DEPENDENCIES:
+  - Bagua (from `../`)
+
+EXTERNAL SOURCES:
+  Bagua:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Bagua: 3b4d27c64ff0612bb6c53d25e1335ac55b752f2d
+
+PODFILE CHECKSUM: 5f98fbb042cf6c823285bc4da206e3a6862d7489
+
+COCOAPODS: 1.5.3

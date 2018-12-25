@@ -1,0 +1,6 @@
+framework module Bagua {
+  umbrella header "Bagua-umbrella.h"
+
+  export *
+  module * { export * }
+}

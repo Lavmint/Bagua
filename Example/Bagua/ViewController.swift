@@ -7,18 +7,95 @@
 //
 
 import UIKit
+import Bagua
+import CoreData
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        do {
+            try transactions()
+        } catch {
+            assertionFailure(error.localizedDescription)
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func transactions() throws {
+        
+        //generate stubs
+        let users: [User] = [
+            User(phone: "+79349569345", name: "Peter", surname: "Griffin", sex: .male),
+            User(phone: "+63234535356", name: "Finn", surname: "the Human", sex: .male),
+            User(phone: "+13432342342", name: "Bubblegum", surname: "the Princess", sex: .female),
+            User(phone: "+33432535325", name: "Marceline", surname: "the Vampire Queen", sex: .female)
+        ]
+        
+        //create sync transaction in viewContext
+        try db.bagua.sync(ctx: .view) { (t) in
+            //write transaction in viewContext
+            try t.write({ (w) in
+                try w.update(objects: users)
+            })
+        }
+        
+        //print sync in viewContext
+        try db.bagua.sync(ctx: .view) { (t) in
+            t.dictionaries(UserMO.self).configure({ (r) in
+                r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: false)]
+            }).print()
+        }
+        
+        //modify async in viewContext
+        db.bagua.async(await: onModify, ctx: .background, { (t) in
+            let user = try t.objects(UserMO.self).find(id: "+79349569345")!.object!
+            user.name = "Pitter is not a Pitter"
+            try t.write({ (w) in
+                try w.update(object: user)
+            })
+        })
     }
-
+    
+    private func onModify(error: Error?) {
+        
+        if let err = error {
+            assertionFailure(err.localizedDescription)
+        }
+        
+        do {
+            try db.bagua.sync(ctx: .background, { (t) in
+                t.dictionaries(UserMO.self).configure({ (r) in
+                    r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
+                }).print()
+            })
+        } catch {
+            assertionFailure(error.localizedDescription)
+        }
+    }
+    
 }
 
+public enum db {
+    
+    public static let bagua: DAO = {
+        
+        let container = NSPersistentContainer(
+            name: "Bagua",
+            managedObjectModel: NSManagedObjectModel(
+                contentsOf: Bundle.main.url(
+                    forResource: "Bagua",
+                    withExtension: "momd"
+                    )!
+                )!
+        )
+        
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        
+        return DAO(container: container)
+    }()
+    
+}
