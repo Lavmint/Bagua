@@ -14,48 +14,35 @@ public enum Context {
     case unsafeBackground(ctx: NSManagedObjectContext)
 }
 
-public class DAO {
+public protocol TransactionDelegate: class {
+    func willExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context)
+    func didExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context)
+    func willSaveCtx(notification: Notification)
+    func didChangeCtxObjects(notification: Notification)
+    func didSaveCtx(notification: Notification)
+}
+
+open class DAO {
     
     internal let container: NSPersistentContainer
+    public weak var delegate: TransactionDelegate?
     
     public init(container: NSPersistentContainer) {
         self.container = container
     }
     
     private func execute(ctx: Context, context: NSManagedObjectContext, block: ((_ t: Transaction) throws -> Void)) throws  {
-        if context != container.viewContext {
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(self.willSaveCtx),
-                name: NSNotification.Name.NSManagedObjectContextWillSave,
-                object: context
-            )
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(self.didChangeCtxObjects),
-                name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                object: context
-            )
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(self.didSaveCtx),
-                name: NSNotification.Name.NSManagedObjectContextDidSave,
-                object: context
-            )
-        }
+        willExecuteTransaction(in: context, ofType: ctx)
         try block(Transaction(container: container, ctx: context))
+        didExecuteTransaction(in: context, ofType: ctx)
     }
     
     public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
         switch ctx {
         case .view:
-            let context = container.viewContext
-            context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
             try execute(ctx: ctx, context: container.viewContext, block: block)
         case .background:
-            let context = container.newBackgroundContext()
-            context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-            try execute(ctx: ctx, context: context, block: block)
+            try execute(ctx: ctx, context: container.newBackgroundContext(), block: block)
         case .unsafeBackground(ctx: let context):
             try execute(ctx: ctx, context: context, block: block)
         }
@@ -99,19 +86,63 @@ public class DAO {
         }
     }
     
-    @objc private func willSaveCtx(_ notification: Notification) {
-        
+    public func subscribe(context: NSManagedObjectContext) {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.willSaveCtx),
+            name: NSNotification.Name.NSManagedObjectContextWillSave,
+            object: context
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didChangeCtxObjects),
+            name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
+            object: context
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didSaveCtx),
+            name: NSNotification.Name.NSManagedObjectContextDidSave,
+            object: context
+        )
     }
     
-    @objc private func didChangeCtxObjects(_ notification: Notification) {
+    open func willExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
         
-    }
-    
-    @objc private func didSaveCtx(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            guard let welf = self else { return }
-            welf.container.viewContext.mergeChanges(fromContextDidSave: notification)
+        switch ctx {
+        case .view:
+            break
+        default:
+            subscribe(context: context)
         }
+        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        
+        delegate?.willExecuteTransaction(in: context, ofType: ctx)
+    }
+    
+    open func didExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
+        delegate?.didExecuteTransaction(in: context, ofType: ctx)
+    }
+    
+    @objc open func willSaveCtx(_ notification: Notification) {
+        delegate?.willSaveCtx(notification: notification)
+    }
+    
+    @objc open func didChangeCtxObjects(_ notification: Notification) {
+        delegate?.didChangeCtxObjects(notification: notification)
+    }
+    
+    @objc open func didSaveCtx(_ notification: Notification) {
+        
+        DispatchQueue.main.async {
+            self.container.viewContext.mergeChanges(fromContextDidSave: notification)
+        }
+        
+        delegate?.didSaveCtx(notification: notification)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

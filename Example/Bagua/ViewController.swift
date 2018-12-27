@@ -31,6 +31,22 @@ class ViewController: UIViewController {
             User(phone: "+33432535325", name: "Marceline", surname: "the Vampire Queen", sex: .female)
         ]
         
+        db.bagua.delegate = self
+        
+        //clean db
+        try db.bagua.sync(ctx: .view) { (t) in
+            try t.write({ (w) in
+                try w.drop()
+            })
+        }
+        
+        //print sync in viewContext
+        try db.bagua.sync(ctx: .view) { (t) in
+            t.dictionaries(UserMO.self).configure({ (r) in
+                r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: false)]
+            }).print()
+        }
+        
         //create sync transaction in viewContext
         try db.bagua.sync(ctx: .view) { (t) in
             //write transaction in viewContext
@@ -75,27 +91,25 @@ class ViewController: UIViewController {
     
 }
 
-public enum db {
+extension ViewController: TransactionDelegate {
+
+    func willExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
+        print(#function)
+    }
     
-    public static let bagua: DAO = {
-        
-        let container = NSPersistentContainer(
-            name: "Bagua",
-            managedObjectModel: NSManagedObjectModel(
-                contentsOf: Bundle.main.url(
-                    forResource: "Bagua",
-                    withExtension: "momd"
-                    )!
-                )!
-        )
-        
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        
-        return DAO(container: container)
-    }()
+    func didExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
+        print(#function)
+    }
+
+    func willSaveCtx(notification: Notification) {
+        print(#function)
+    }
     
+    func didChangeCtxObjects(notification: Notification) {
+        print(#function)
+    }
+    
+    func didSaveCtx(notification: Notification) {
+        print(#function)
+    }
 }
