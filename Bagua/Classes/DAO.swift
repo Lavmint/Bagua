@@ -113,6 +113,7 @@ open class DAO {
         case .view:
             break
         default:
+            context.parent = container.viewContext
             subscribe(context: context)
         }
         context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
@@ -133,11 +134,6 @@ open class DAO {
     }
     
     @objc open func didSaveCtx(_ notification: Notification) {
-        
-        DispatchQueue.main.async {
-            self.container.viewContext.mergeChanges(fromContextDidSave: notification)
-        }
-        
         delegate?.didSaveCtx(notification: notification)
     }
     
