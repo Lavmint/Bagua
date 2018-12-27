@@ -29,6 +29,7 @@ open class DAO {
     
     public init(container: NSPersistentContainer) {
         self.container = container
+        container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     private func execute(ctx: Context, context: NSManagedObjectContext, block: ((_ t: Transaction) throws -> Void)) throws  {
@@ -108,16 +109,13 @@ open class DAO {
     }
     
     open func willExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
-        
+        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
         switch ctx {
         case .view:
             break
         default:
-            context.parent = container.viewContext
             subscribe(context: context)
         }
-        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        
         delegate?.willExecuteTransaction(in: context, ofType: ctx)
     }
     
