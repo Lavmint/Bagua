@@ -22,6 +22,7 @@
 		9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */; };
 		C5F3519C9C1B3E1E9BA08BDA804E33F9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */; };
 		F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */; };
+		FA48315621EF46A800BECE0E /* DAOListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA48315521EF46A800BECE0E /* DAOListener.swift */; };
 		FC30DA72D4B9D0AEA649530AD4F1A0F5 /* Bagua-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -40,25 +41,25 @@
 		054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collection.swift; path = Bagua/Classes/Collection.swift; sourceTree = "<group>"; };
 		0DF150A12D4980F9E7B5031E5412719A /* Pods-Bagua_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.release.xcconfig"; sourceTree = "<group>"; };
 		16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		179EC150BE73B7994A6541E1C4FB6139 /* Bagua.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = Bagua.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		179EC150BE73B7994A6541E1C4FB6139 /* Bagua.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = Bagua.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1E226A1D28CEAFC226C3FB2CAAB63478 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CacheContract .swift"; path = "Bagua/Classes/CacheContract .swift"; sourceTree = "<group>"; };
 		36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecyclerController.swift; path = Bagua/Classes/RecyclerController.swift; sourceTree = "<group>"; };
-		37B1DD84EBF0E9265BD8786DE525C709 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		37B1DD84EBF0E9265BD8786DE525C709 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-umbrella.h"; sourceTree = "<group>"; };
-		5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bagua_Example.framework; path = "Pods-Bagua_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bagua_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ManagedObject.swift; path = Bagua/Classes/ManagedObject.swift; sourceTree = "<group>"; };
 		56496A6AFA76089C261CB3354AFEF585 /* Bagua-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-prefix.pch"; sourceTree = "<group>"; };
 		619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSFetchedResultsControllerDelegate.swift; path = Bagua/Classes/NSFetchedResultsControllerDelegate.swift; sourceTree = "<group>"; };
 		64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DAO.swift; path = Bagua/Classes/DAO.swift; sourceTree = "<group>"; };
 		6A98B8B388E22951CDDBF1075280A60A /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Bagua/Classes/Request.swift; sourceTree = "<group>"; };
-		6BE83978C6E46C90F00587AF00DE95ED /* Bagua.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Bagua.framework; path = Bagua.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		72FCC042D28A9C0D500D242CC06567DD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		6BE83978C6E46C90F00587AF00DE95ED /* Bagua.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bagua.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72FCC042D28A9C0D500D242CC06567DD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		74BE1459DB06BD3BE128AF3E784374A2 /* Pods-Bagua_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bagua_Example-resources.sh"; sourceTree = "<group>"; };
 		74F8565E0C06AD86E545AA5854B567DC /* Pods-Bagua_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bagua_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		874C32A5B0D422595778A0DA883DA95F /* Pods-Bagua_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bagua_Example.modulemap"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		94D542E0F1C79AFC4C1A544083233A92 /* Pods-Bagua_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bagua_Example-dummy.m"; sourceTree = "<group>"; };
 		9CD3A897A7F4BC173F818DE64A8396DB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Bagua-dummy.m"; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 		C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = Bagua/Classes/Transaction.swift; sourceTree = "<group>"; };
 		C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bagua_Example-umbrella.h"; sourceTree = "<group>"; };
+		FA48315521EF46A800BECE0E /* DAOListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DAOListener.swift; path = Bagua/Classes/DAOListener.swift; sourceTree = "<group>"; };
 		FBBC7405327B237DF4176048D03152EF /* Equatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Equatable.swift; path = Bagua/Classes/Equatable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,6 +178,7 @@
 				368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */,
 				054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */,
 				64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */,
+				FA48315521EF46A800BECE0E /* DAOListener.swift */,
 				FBBC7405327B237DF4176048D03152EF /* Equatable.swift */,
 				516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */,
 				619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */,
@@ -315,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */,
+				FA48315621EF46A800BECE0E /* DAOListener.swift in Sources */,
 				5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */,
 				9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */,
 				0E5D80DDEE5FE57F3D2609B0B54D908D /* DAO.swift in Sources */,
@@ -569,8 +573,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};

@@ -12,8 +12,30 @@ import CoreData
 
 class ViewController: UIViewController {
 
+    lazy var daoListener: DAOListener = {
+        return DAOListener()
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        daoListener.onWillExecuteTransaction = { _ in
+            print("onWillExecuteTransaction")
+        }
+        daoListener.onDidExecuteTransaction = { _ in
+            print("onDidExecuteTransaction")
+        }
+        daoListener.onWillSaveContext = {
+            print("onWillSaveContext")
+        }
+        daoListener.onDidChangeContextObjects = { changes in
+            print(changes)
+            print("onDidChangeContextObjects")
+        }
+        daoListener.onDidSaveContext = {
+            print("onDidSaveContext")
+        }
+        
         do {
             try transactions()
         } catch {
@@ -30,8 +52,6 @@ class ViewController: UIViewController {
             User(phone: "+13432342342", name: "Bubblegum", surname: "the Princess", sex: .female),
             User(phone: "+33432535325", name: "Marceline", surname: "the Vampire Queen", sex: .female)
         ]
-        
-        db.bagua.delegate = self
         
         //clean db
         try db.bagua.sync(ctx: .view) { (t) in
@@ -89,27 +109,4 @@ class ViewController: UIViewController {
         }
     }
     
-}
-
-extension ViewController: TransactionDelegate {
-
-    func willExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
-        print(#function)
-    }
-    
-    func didExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
-        print(#function)
-    }
-
-    func willSaveCtx(notification: Notification) {
-        print(#function)
-    }
-    
-    func didChangeCtxObjects(notification: Notification) {
-        print(#function)
-    }
-    
-    func didSaveCtx(notification: Notification) {
-        print(#function)
-    }
 }

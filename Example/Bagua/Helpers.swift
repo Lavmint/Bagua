@@ -27,9 +27,19 @@ public enum db {
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            container.viewContext.automaticallyMergesChangesFromParent = true
         })
         
-        return DAO(container: container)
+        let listener = DAOListener()
+        listener.onWillExecuteTransaction = { info in
+            info.managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        }
+        
+        let dao = DAO(container: container)
+        dao.observer = listener
+        
+        return dao
+        
     }()
     
 }

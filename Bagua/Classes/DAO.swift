@@ -26,16 +26,27 @@ open class DAO {
     
     internal let container: NSPersistentContainer
     public weak var delegate: TransactionDelegate?
+    public var observer: DAOListener?
     
     public init(container: NSPersistentContainer) {
         self.container = container
-        container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     private func execute(ctx: Context, context: NSManagedObjectContext, block: ((_ t: Transaction) throws -> Void)) throws  {
-        willExecuteTransaction(in: context, ofType: ctx)
+        let info = TransactionInfo(context: ctx, managedObjectContext: context)
+        let willExecuteTransactionNotification = Notification(
+            name: .willExecuteTransaction,
+            object: nil,
+            userInfo: [DAOListener.NotificationKeys.transactionInfo.rawValue: info]
+        )
+        let didExecuteTransactionNotification = Notification(
+            name: .didExecuteTransaction,
+            object: nil,
+            userInfo: [DAOListener.NotificationKeys.transactionInfo.rawValue: info]
+        )
+        NotificationCenter.default.post(willExecuteTransactionNotification)
         try block(Transaction(container: container, ctx: context))
-        didExecuteTransaction(in: context, ofType: ctx)
+        NotificationCenter.default.post(didExecuteTransactionNotification)
     }
     
     public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
@@ -85,58 +96,6 @@ open class DAO {
                 }
             }
         }
-    }
-    
-    public func subscribe(context: NSManagedObjectContext) {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.willSaveCtx),
-            name: NSNotification.Name.NSManagedObjectContextWillSave,
-            object: context
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didChangeCtxObjects),
-            name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-            object: context
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didSaveCtx),
-            name: NSNotification.Name.NSManagedObjectContextDidSave,
-            object: context
-        )
-    }
-    
-    open func willExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
-        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        switch ctx {
-        case .view:
-            break
-        default:
-            subscribe(context: context)
-        }
-        delegate?.willExecuteTransaction(in: context, ofType: ctx)
-    }
-    
-    open func didExecuteTransaction(in context: NSManagedObjectContext, ofType ctx: Context) {
-        delegate?.didExecuteTransaction(in: context, ofType: ctx)
-    }
-    
-    @objc open func willSaveCtx(_ notification: Notification) {
-        delegate?.willSaveCtx(notification: notification)
-    }
-    
-    @objc open func didChangeCtxObjects(_ notification: Notification) {
-        delegate?.didChangeCtxObjects(notification: notification)
-    }
-    
-    @objc open func didSaveCtx(_ notification: Notification) {
-        delegate?.didSaveCtx(notification: notification)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
