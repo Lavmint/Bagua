@@ -29,8 +29,13 @@ class ViewController: UIViewController {
             print("onWillSaveContext")
         }
         daoListener.onDidChangeContextObjects = { changes in
-            print(changes)
             print("onDidChangeContextObjects")
+            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.name)], changes: [.update], ids: ["+79349569345"]) {
+                print("name was updated for id +79349569345")
+            }
+            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.surname)], changes: [.update], ids: ["+63234535356"]) {
+                print("surname was updated for id +63234535356")
+            }
         }
         daoListener.onDidSaveContext = {
             print("onDidSaveContext")
@@ -62,7 +67,7 @@ class ViewController: UIViewController {
         
         //print sync in viewContext
         try db.bagua.sync(ctx: .view) { (t) in
-            t.dictionaries(UserMO.self).configure({ (r) in
+            t.dictionaries(User.self).configure({ (r) in
                 r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: false)]
             }).print()
         }
@@ -84,12 +89,21 @@ class ViewController: UIViewController {
         
         //modify async in viewContext
         db.bagua.async(await: onModify, ctx: .background, { (t) in
-            let user = try t.objects(UserMO.self).find(id: "+79349569345")!.object!
+            let user = try t.objects(User.self).find(id: "+79349569345")!.object!
             user.name = "Pitter is not a Pitter"
             try t.write({ (w) in
                 try w.update(object: user)
             })
         })
+        
+        db.bagua.async(await: onModify, ctx: .background, { (t) in
+            let user = try t.objects(UserMO.self).find(id: "+63234535356")!.object!
+            user.surname = "Finn is not Finn"
+            try t.write({ (w) in
+                try w.update(object: user)
+            })
+        })
+        
     }
     
     private func onModify(error: Error?) {

@@ -9,7 +9,7 @@
 import CoreData
 
 public protocol ManagedObject: class {
-    associatedtype PrimaryKey: CVarArg
+    associatedtype PrimaryKey: CVarArg & Equatable
     static func primaryKey() -> String
     var primaryId: PrimaryKey { get set }
 }

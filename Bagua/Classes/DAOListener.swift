@@ -136,3 +136,64 @@ public class DAOListener {
         NotificationCenter.default.removeObserver(self)
     }
 }
+
+public extension ContextChangesInfo {
+    
+    public enum ChangeType {
+        case update
+        case insert
+        case invalidate
+        case delete
+        case refresh
+    }
+    
+    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String], changes changeTypes: [ChangeType], ids: [T.PrimaryKey] = [], _ block: () -> Void) {
+        
+        var changes: [Set<NSManagedObject>] = []
+        for t in changeTypes {
+            switch t {
+            case .update:
+                changes.append(updates)
+            case .insert:
+                changes.append(inserts)
+            case .invalidate:
+                changes.append(invalidates)
+            case .delete:
+                changes.append(deletes)
+            case .refresh:
+                changes.append(refreshes)
+            }
+        }
+        
+        l1: for change in changes {
+            for upd in change {
+                
+                guard let obj = upd as? T else { continue }
+                
+                var isConformedId = true
+                var isConformedKey = true
+                
+                if !ids.isEmpty {
+                    isConformedId = ids.contains(obj.primaryId)
+                }
+                
+                if !keys.isEmpty {
+                    var isChangedKey = false
+                    for key in obj.changedValues().keys {
+                        if keys.contains(key) {
+                            isChangedKey = true
+                            break
+                        }
+                    }
+                    isConformedKey = isChangedKey
+                }
+                
+                if isConformedId && isConformedKey {
+                    block()
+                    break l1
+                }
+            }
+        }
+    }
+    
+}

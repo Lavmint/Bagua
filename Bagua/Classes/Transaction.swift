@@ -33,6 +33,22 @@ public class Transaction {
     public func count<T: Managed>(_ type: T.Type) -> Request<T, NSNumber> {
         return Request<T, NSNumber>(container: container, ctx: ctx)
     }
+    
+    public func managedIds<T: InputCacheContract>(_ type: T.Type) -> Request<T.Output, NSManagedObjectID> {
+        return Request<T.Output, NSManagedObjectID>(container: container, ctx: ctx)
+    }
+    
+    public func objects<T: InputCacheContract>(_ type: T.Type) -> Request<T.Output, T.Output> {
+        return Request<T.Output, T.Output>(container: container, ctx: ctx)
+    }
+    
+    public func dictionaries<T: InputCacheContract>(_ type: T.Type) -> Request<T.Output, NSDictionary> {
+        return Request<T.Output, NSDictionary>(container: container, ctx: ctx)
+    }
+    
+    public func count<T: InputCacheContract>(_ type: T.Type) -> Request<T.Output, NSNumber> {
+        return Request<T.Output, NSNumber>(container: container, ctx: ctx)
+    }
 }
 
 //MARK: - Write
