@@ -147,7 +147,7 @@ public extension ContextChangesInfo {
         case refresh
     }
     
-    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String], changes changeTypes: [ChangeType], ids: [T.PrimaryKey] = [], _ block: () -> Void) {
+    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String], changes changeTypes: [ChangeType], ids: [T.PrimaryKey] = [], _ block: (_ ids: [T.PrimaryKey]) -> Void) {
         
         var changes: [Set<NSManagedObject>] = []
         for t in changeTypes {
@@ -189,7 +189,14 @@ public extension ContextChangesInfo {
                 }
                 
                 if isConformedId && isConformedKey {
-                    block()
+                    var tasks = Set<T>()
+                    for ch in changes {
+                        for obj in ch {
+                            guard let o = obj as? T else { return }
+                            tasks.insert(o)
+                        }
+                    }
+                    block(tasks.map({ $0.primaryId }))
                     break l1
                 }
             }

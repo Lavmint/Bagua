@@ -30,10 +30,12 @@ class ViewController: UIViewController {
         }
         daoListener.onDidChangeContextObjects = { changes in
             print("onDidChangeContextObjects")
-            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.name)], changes: [.update], ids: ["+79349569345"]) {
+            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.name)], changes: [.update], ids: ["+79349569345"]) { ids in
+                print(ids)
                 print("name was updated for id +79349569345")
             }
-            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.surname)], changes: [.update], ids: ["+63234535356"]) {
+            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.surname)], changes: [.update], ids: ["+63234535356"]) { ids in
+                print(ids)
                 print("surname was updated for id +63234535356")
             }
         }
