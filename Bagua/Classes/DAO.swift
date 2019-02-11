@@ -49,21 +49,43 @@ open class DAO {
         NotificationCenter.default.post(didExecuteTransactionNotification)
     }
     
-    public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
+    public func sync(ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) throws {
         switch ctx {
         case .view:
             try execute(ctx: ctx, context: container.viewContext, block: block)
         case .background:
-            try execute(ctx: ctx, context: container.newBackgroundContext(), block: block)
+            OperationQueue.Bagua.background.addOperation { [weak self] in
+                defer {
+                    Thread.current.start()
+                }
+                guard let welf = self else { return }
+                do {
+                    try welf.execute(ctx: ctx, context: welf.container.newBackgroundContext(), block: block)
+                } catch {
+                    assertionFailure(error.localizedDescription)
+                }
+            }
+            Thread.sleep(until: Date.init(timeIntervalSince1970: TimeInterval.greatestFiniteMagnitude))
         case .unsafeBackground(ctx: let context):
-            try execute(ctx: ctx, context: context, block: block)
+            OperationQueue.Bagua.background.addOperation { [weak self] in
+                defer {
+                    Thread.current.start()
+                }
+                guard let welf = self else { return }
+                do {
+                    try welf.execute(ctx: ctx, context: context, block: block)
+                } catch {
+                    assertionFailure(error.localizedDescription)
+                }
+            }
+            Thread.sleep(until: Date.init(timeIntervalSince1970: TimeInterval.greatestFiniteMagnitude))
         }
     }
     
     public func async(await: ((Error?) -> Void)? = nil, ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
         switch ctx {
         case .view:
-            DispatchQueue.main.async { [weak self] in
+            OperationQueue.main.addOperation { [weak self] in
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: welf.container.viewContext, block: block)
@@ -74,7 +96,8 @@ open class DAO {
                 }
             }
         case .background:
-            container.performBackgroundTask { [weak self] (context) in
+            let context = container.newBackgroundContext()
+            OperationQueue.Bagua.background.addOperation { [weak self] in
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: context, block: block)
@@ -85,7 +108,7 @@ open class DAO {
                 }
             }
         case .unsafeBackground(ctx: let context):
-            DispatchQueue.dbBackgroundQueue.async { [weak self] in
+            OperationQueue.Bagua.background.addOperation { [weak self] in
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: context, block: block)
@@ -99,6 +122,17 @@ open class DAO {
     }
 }
 
-extension DispatchQueue {
-    static let dbBackgroundQueue = DispatchQueue(label: "dbBackgroundQueue", qos: .background)
+extension OperationQueue {
+    
+    enum Bagua {
+        
+        static let background: OperationQueue = {
+            let op = OperationQueue()
+            op.qualityOfService = .background
+            op.name = "org.cocoapods.bagua.opqueue.background"
+            op.maxConcurrentOperationCount = 1
+            return op
+        }()
+        
+    }
 }

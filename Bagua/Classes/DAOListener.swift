@@ -145,12 +145,17 @@ public extension ContextChangesInfo {
         case invalidate
         case delete
         case refresh
+        
+        static let all: [ChangeType] = {
+            return [.update, .insert, .invalidate, .delete, .refresh]
+        }()
     }
     
-    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String], changes changeTypes: [ChangeType], ids: [T.PrimaryKey] = [], _ block: (_ ids: [T.PrimaryKey]) -> Void) {
+    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String] = [], changes changeTypes: [ChangeType] = [], ids: [T.PrimaryKey] = [], _ block: (_ ids: [T.PrimaryKey]) -> Void) {
         
+        let types = !changeTypes.isEmpty ? changeTypes : ChangeType.all
         var changes: [Set<NSManagedObject>] = []
-        for t in changeTypes {
+        for t in types {
             switch t {
             case .update:
                 changes.append(updates)
