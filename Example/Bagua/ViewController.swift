@@ -90,20 +90,32 @@ class ViewController: UIViewController {
         }
         
         //modify async in viewContext
-        db.bagua.async(await: onModify, ctx: .background, { (t) in
+        db.bagua.async(ctx: .background, { (t) in
+            
             let user = try t.objects(User.self).find(id: "+79349569345")!.object!
             user.name = "Pitter is not a Pitter"
+            
             try t.write({ (w) in
                 try w.update(object: user)
             })
+            
+            t.dictionaries(UserMO.self).configure({ (r) in
+                r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
+            }).print()
         })
         
-        db.bagua.async(await: onModify, ctx: .background, { (t) in
+        db.bagua.async(ctx: .background, { (t) in
+            
             let user = try t.objects(UserMO.self).find(id: "+63234535356")!.object!
             user.surname = "Finn is not Finn"
+            
             try t.write({ (w) in
                 try w.update(object: user)
             })
+            
+            t.dictionaries(UserMO.self).configure({ (r) in
+                r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
+            }).print()
         })
         
     }
@@ -116,9 +128,7 @@ class ViewController: UIViewController {
         
         do {
             try db.bagua.sync(ctx: .background, { (t) in
-                t.dictionaries(UserMO.self).configure({ (r) in
-                    r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
-                }).print()
+  
             })
         } catch {
             assertionFailure(error.localizedDescription)

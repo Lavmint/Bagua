@@ -56,15 +56,16 @@ open class DAO {
     }
     
     private func perform(_ f: () -> Void) {
+        let semaphore = DispatchSemaphore(value: 0)
         withoutActuallyEscaping(f) { escapableF in
             OperationQueue.Bagua.background.addOperation {
                 defer {
-                    Thread.current.start()
+                    semaphore.signal()
                 }
                 escapableF()
             }
-            Thread.sleep(until: Date.init(timeIntervalSince1970: TimeInterval.greatestFiniteMagnitude))
         }
+        _ = semaphore.wait(timeout: .now() + 160)
     }
     
     public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
@@ -90,17 +91,15 @@ open class DAO {
         }
     }
     
-    public func async(await: ((Error?) -> Void)? = nil, ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
+    public func async(ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
         switch ctx {
         case .view:
             OperationQueue.main.addOperation { [weak self] in
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: welf.container.viewContext, block: block)
-                    await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
-                    await?(error)
                 }
             }
         case .background:
@@ -109,10 +108,8 @@ open class DAO {
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: context, block: block)
-                    await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
-                    await?(error)
                 }
             }
         case .unsafeBackground(ctx: let context):
@@ -120,10 +117,8 @@ open class DAO {
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: context, block: block)
-                    await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
-                    await?(error)
                 }
             }
         }
