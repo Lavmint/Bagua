@@ -49,41 +49,24 @@ open class DAO {
         NotificationCenter.default.post(didExecuteTransactionNotification)
     }
     
-    func allValues(in array: [Int], match predicate: (Int) -> Bool) -> Bool {
-        return withoutActuallyEscaping(predicate) { escapablePredicate in
-            array.lazy.filter { !escapablePredicate($0) }.isEmpty
-        }
-    }
-    
-    private func perform(_ f: () -> Void) {
-        let semaphore = DispatchSemaphore(value: 0)
-        withoutActuallyEscaping(f) { escapableF in
-            OperationQueue.Bagua.background.addOperation {
-                defer {
-                    semaphore.signal()
-                }
-                escapableF()
-            }
-        }
-        _ = semaphore.wait(timeout: .now() + 160)
-    }
-    
-    public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
+    public func sync(ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) throws {
         switch ctx {
         case .view:
             try execute(ctx: ctx, context: container.viewContext, block: block)
         case .background:
-            perform {
+            OperationQueue.Bagua.background.addOperation { [weak self] in
+                guard let welf = self else { return }
                 do {
-                    try execute(ctx: ctx, context: container.newBackgroundContext(), block: block)
+                    try welf.execute(ctx: ctx, context: welf.container.newBackgroundContext(), block: block)
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
             }
         case .unsafeBackground(ctx: let context):
-            perform {
+            OperationQueue.Bagua.background.addOperation { [weak self] in
+                guard let welf = self else { return }
                 do {
-                    try execute(ctx: ctx, context: context, block: block)
+                    try welf.execute(ctx: ctx, context: context, block: block)
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
@@ -91,15 +74,17 @@ open class DAO {
         }
     }
     
-    public func async(ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
+    public func async(await: ((Error?) -> Void)? = nil, ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
         switch ctx {
         case .view:
             OperationQueue.main.addOperation { [weak self] in
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: welf.container.viewContext, block: block)
+                    await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
+                    await?(error)
                 }
             }
         case .background:
@@ -108,8 +93,10 @@ open class DAO {
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: context, block: block)
+                    await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
+                    await?(error)
                 }
             }
         case .unsafeBackground(ctx: let context):
@@ -117,8 +104,10 @@ open class DAO {
                 guard let welf = self else { return }
                 do {
                     try welf.execute(ctx: ctx, context: context, block: block)
+                    await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
+                    await?(error)
                 }
             }
         }
