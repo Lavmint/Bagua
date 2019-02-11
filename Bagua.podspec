@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Bagua'
-  s.version          = '0.2.1'
+  s.version          = '0.2.2'
   s.summary          = 'Swift wrapper around CoreData stack inspired by Realm'
 
   s.homepage         = 'https://github.com/Lavmint/Bagua'

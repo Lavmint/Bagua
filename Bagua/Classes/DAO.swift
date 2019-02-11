@@ -49,36 +49,44 @@ open class DAO {
         NotificationCenter.default.post(didExecuteTransactionNotification)
     }
     
-    public func sync(ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) throws {
+    func allValues(in array: [Int], match predicate: (Int) -> Bool) -> Bool {
+        return withoutActuallyEscaping(predicate) { escapablePredicate in
+            array.lazy.filter { !escapablePredicate($0) }.isEmpty
+        }
+    }
+    
+    private func perform(_ f: () -> Void) {
+        withoutActuallyEscaping(f) { escapableF in
+            OperationQueue.Bagua.background.addOperation {
+                defer {
+                    Thread.current.start()
+                }
+                escapableF()
+            }
+            Thread.sleep(until: Date.init(timeIntervalSince1970: TimeInterval.greatestFiniteMagnitude))
+        }
+    }
+    
+    public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
         switch ctx {
         case .view:
             try execute(ctx: ctx, context: container.viewContext, block: block)
         case .background:
-            OperationQueue.Bagua.background.addOperation { [weak self] in
-                defer {
-                    Thread.current.start()
-                }
-                guard let welf = self else { return }
+            perform {
                 do {
-                    try welf.execute(ctx: ctx, context: welf.container.newBackgroundContext(), block: block)
+                    try execute(ctx: ctx, context: container.newBackgroundContext(), block: block)
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
             }
-            Thread.sleep(until: Date.init(timeIntervalSince1970: TimeInterval.greatestFiniteMagnitude))
         case .unsafeBackground(ctx: let context):
-            OperationQueue.Bagua.background.addOperation { [weak self] in
-                defer {
-                    Thread.current.start()
-                }
-                guard let welf = self else { return }
+            perform {
                 do {
-                    try welf.execute(ctx: ctx, context: context, block: block)
+                    try execute(ctx: ctx, context: context, block: block)
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
             }
-            Thread.sleep(until: Date.init(timeIntervalSince1970: TimeInterval.greatestFiniteMagnitude))
         }
     }
     
