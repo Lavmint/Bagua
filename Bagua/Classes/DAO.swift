@@ -49,28 +49,14 @@ open class DAO {
         NotificationCenter.default.post(didExecuteTransactionNotification)
     }
     
-    public func sync(ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) throws {
+    public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
         switch ctx {
         case .view:
             try execute(ctx: ctx, context: container.viewContext, block: block)
         case .background:
-            OperationQueue.Bagua.background.addOperation { [weak self] in
-                guard let welf = self else { return }
-                do {
-                    try welf.execute(ctx: ctx, context: welf.container.newBackgroundContext(), block: block)
-                } catch {
-                    assertionFailure(error.localizedDescription)
-                }
-            }
+            try execute(ctx: ctx, context: container.newBackgroundContext(), block: block)
         case .unsafeBackground(ctx: let context):
-            OperationQueue.Bagua.background.addOperation { [weak self] in
-                guard let welf = self else { return }
-                do {
-                    try welf.execute(ctx: ctx, context: context, block: block)
-                } catch {
-                    assertionFailure(error.localizedDescription)
-                }
-            }
+            try execute(ctx: ctx, context: context, block: block)
         }
     }
     
