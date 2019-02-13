@@ -18,26 +18,44 @@ public extension NSFetchedResultsControllerDelegate {
         tableView?.endUpdates()
     }
     
-    public func defaultObjectActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, at indexPath: IndexPath?, newIndexPath: IndexPath?) {
+    public func defaultObjectActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, at indexPath: IndexPath?, newIndexPath: IndexPath?, animations: [NSFetchedResultsChangeType: UITableView.RowAnimation]? = nil) {
+        
+        let animationForAction = animations ?? [
+            .insert: .fade,
+            .delete: .fade,
+            .update: .none,
+            .move: .fade
+        ]
+        let animation = animationForAction[action]!
+        
         switch action {
         case .insert:
-            tableView?.insertRows(at: [newIndexPath!], with: .fade)
+            tableView?.insertRows(at: [newIndexPath!], with: animation)
         case .delete:
-            tableView?.deleteRows(at: [indexPath!], with: .fade)
+            tableView?.deleteRows(at: [indexPath!], with: animation)
         case .update:
-            tableView?.reloadRows(at: [indexPath!], with: .none)
+            tableView?.reloadRows(at: [indexPath!], with: animation)
         case .move:
-            tableView?.deleteRows(at: [indexPath!], with: .fade)
-            tableView?.insertRows(at: [newIndexPath!], with: .fade)
+            tableView?.deleteRows(at: [indexPath!], with: animation)
+            tableView?.insertRows(at: [newIndexPath!], with: animation)
         }
     }
     
-    public func defaultSectionActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, atSectionIndex sectionIndex: Int) {
+    public func defaultSectionActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, atSectionIndex sectionIndex: Int, animations: [NSFetchedResultsChangeType: UITableView.RowAnimation]? = nil) {
+        
+        let animationForAction = animations ?? [
+            .insert: .fade,
+            .delete: .fade,
+            .update: .none,
+            .move: .fade
+        ]
+        let animation = animationForAction[action]!
+        
         switch action {
         case .insert:
-            tableView?.insertSections(IndexSet(arrayLiteral: sectionIndex), with: .fade)
+            tableView?.insertSections(IndexSet(arrayLiteral: sectionIndex), with: animation)
         case .delete:
-            tableView?.deleteSections(IndexSet(arrayLiteral: sectionIndex), with: .fade)
+            tableView?.deleteSections(IndexSet(arrayLiteral: sectionIndex), with: animation)
         default:
             assertionFailure()
         }
