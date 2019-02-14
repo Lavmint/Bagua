@@ -139,21 +139,17 @@ public class DAOListener {
 
 public extension ContextChangesInfo {
     
-    public enum ChangeType {
+    public enum ChangeType: CaseIterable {
         case update
         case insert
         case invalidate
         case delete
         case refresh
-        
-        static let all: [ChangeType] = {
-            return [.update, .insert, .invalidate, .delete, .refresh]
-        }()
     }
     
     public func trigger<T: Managed>(track: T.Type, forKeys keys: [String] = [], changes changeTypes: [ChangeType] = [], ids: [T.PrimaryKey] = [], _ block: (_ ids: [T.PrimaryKey]) -> Void) {
         
-        let types = !changeTypes.isEmpty ? changeTypes : ChangeType.all
+        let types = !changeTypes.isEmpty ? changeTypes : ChangeType.allCases
         var changes: [Set<NSManagedObject>] = []
         for t in types {
             switch t {
@@ -197,7 +193,7 @@ public extension ContextChangesInfo {
                     var tasks = Set<T>()
                     for ch in changes {
                         for obj in ch {
-                            guard let o = obj as? T else { return }
+                            guard let o = obj as? T else { continue }
                             tasks.insert(o)
                         }
                     }
