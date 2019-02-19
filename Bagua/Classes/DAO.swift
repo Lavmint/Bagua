@@ -74,11 +74,10 @@ open class DAO {
                 }
             }
         case .background:
-            let context = container.newBackgroundContext()
             OperationQueue.Bagua.background.addOperation { [weak self] in
                 guard let welf = self else { return }
                 do {
-                    try welf.execute(ctx: ctx, context: context, block: block)
+                    try welf.execute(ctx: ctx, context: welf.container.newBackgroundContext(), block: block)
                     await?(nil)
                 } catch {
                     assertionFailure(error.localizedDescription)
