@@ -117,7 +117,7 @@ open class DAO {
     }
     
     ///write transaction performed only in background
-    public func write(await: (() throws -> Void)? = nil, _ block: @escaping ((_ w: WriteTransaction) throws -> Void)) throws {
+    public func write(await: (() throws -> Void)? = nil, _ block: @escaping ((_ w: WriteTransaction) throws -> Void)) {
         OperationQueue.Bagua.serialBackground.addOperation { [weak self] in
             guard let welf = self else { return }
             defer {
