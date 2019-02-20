@@ -7,6 +7,7 @@
 //
 
 import Bagua
+import CoreData
 
 extension UserMO: ManagedObject {
     
@@ -26,9 +27,9 @@ extension UserMO: ManagedObject {
 
 extension UserMO: OutputCacheContract {
     
-    public func update(with object: User) throws {
-        name.updateIfNeeded(newValue: object.name)
-        surname.updateIfNeeded(newValue: object.surname)
-        sex.updateIfNeeded(newValue: object.sex.rawValue)
+    public func update(with object: User, in context: NSManagedObjectContext, container: NSPersistentContainer) throws {
+        updateIfNeeded(&name, newValue: object.name)
+        updateIfNeeded(&surname, newValue: object.surname)
+        updateIfNeeded(&sex, newValue: object.sex.rawValue)
     }
 }

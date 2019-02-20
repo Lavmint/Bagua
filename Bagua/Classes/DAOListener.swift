@@ -36,7 +36,7 @@ public class DAOListener {
     public var onDidExecuteTransaction: ((TransactionInfo) -> Void)?
     public var onWillSaveContext: (() -> Void)?
     public var onDidChangeContextObjects: ((ContextChangesInfo) -> Void)?
-    public var onDidSaveContext: (() -> Void)?
+    public var onDidSaveContext: ((ContextChangesInfo) -> Void)?
     
     public init() {
         NotificationCenter.default.addObserver(
@@ -70,8 +70,19 @@ public class DAOListener {
     }
     
     @objc private func didChangeContextObjects(_ notification: Notification) {
+        onDidChangeContextObjects?(collectContextChanges(from: notification))
+    }
+    
+    @objc private func didSaveContext(_ notification: Notification) {
+        onDidSaveContext?(collectContextChanges(from: notification))
+    }
+    
+    private func collectContextChanges(from notification: Notification) -> ContextChangesInfo {
         
-        guard let userInfo = notification.userInfo else { return }
+        guard let userInfo = notification.userInfo else {
+            return ContextChangesInfo(inserts: [], updates: [], deletes: [], refreshes: [], invalidates: [])
+        }
+        
         var changes = ContextChangesInfo()
         
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
@@ -94,11 +105,7 @@ public class DAOListener {
             changes.refreshes = refreshes
         }
         
-        onDidChangeContextObjects?(changes)
-    }
-    
-    @objc private func didSaveContext(_ notification: Notification) {
-        onDidSaveContext?()
+        return changes
     }
     
     private func unboxTransactionInfo(from notification: Notification) -> TransactionInfo {
@@ -147,7 +154,7 @@ public extension ContextChangesInfo {
         case refresh
     }
     
-    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String] = [], changes changeTypes: [ChangeType] = [], ids: [T.PrimaryKey] = [], _ block: (_ ids: [T.PrimaryKey]) -> Void) {
+    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String] = [], changes changeTypes: [ChangeType] = [], ids: [T.PrimaryKey] = [], _ block: @escaping (_ ids: [T.PrimaryKey]) -> Void) {
         
         let types = !changeTypes.isEmpty ? changeTypes : ChangeType.allCases
         var changes: [Set<NSManagedObject>] = []
@@ -197,7 +204,9 @@ public extension ContextChangesInfo {
                             tasks.insert(o)
                         }
                     }
-                    block(tasks.map({ $0.primaryId }))
+                    OperationQueue.Bagua.concurentBackground.addOperation {
+                        block(tasks.map({ $0.primaryId }))
+                    }
                     break l1
                 }
             }

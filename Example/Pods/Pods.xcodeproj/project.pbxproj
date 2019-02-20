@@ -17,7 +17,6 @@
 		5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */; };
 		795057ADD2825E9DFFF56033FCEE6B83 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98B8B388E22951CDDBF1075280A60A /* Request.swift */; };
 		7B1ACFB55AC4924B0C059D8EA1E554F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */; };
-		905A51EF7E9A7EB80E288A554858C4A7 /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBC7405327B237DF4176048D03152EF /* Equatable.swift */; };
 		919DDFBACAB06BE044B042023B290A42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */; };
 		9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */; };
 		C5F3519C9C1B3E1E9BA08BDA804E33F9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */; };
@@ -70,7 +69,6 @@
 		C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bagua_Example-umbrella.h"; sourceTree = "<group>"; };
 		FA48315521EF46A800BECE0E /* DAOListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DAOListener.swift; path = Bagua/Classes/DAOListener.swift; sourceTree = "<group>"; };
-		FBBC7405327B237DF4176048D03152EF /* Equatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Equatable.swift; path = Bagua/Classes/Equatable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +177,6 @@
 				054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */,
 				64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */,
 				FA48315521EF46A800BECE0E /* DAOListener.swift */,
-				FBBC7405327B237DF4176048D03152EF /* Equatable.swift */,
 				516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */,
 				619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */,
 				36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */,
@@ -322,7 +319,6 @@
 				5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */,
 				9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */,
 				0E5D80DDEE5FE57F3D2609B0B54D908D /* DAO.swift in Sources */,
-				905A51EF7E9A7EB80E288A554858C4A7 /* Equatable.swift in Sources */,
 				2A33E997D625F1127BB7BAD4F48591C8 /* ManagedObject.swift in Sources */,
 				37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */,
 				28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */,

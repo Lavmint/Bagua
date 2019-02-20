@@ -1,6 +1,5 @@
 # Bagua
 
-[![CI Status](https://img.shields.io/travis/Alexey Averkin/Bagua.svg?style=flat)](https://travis-ci.org/Alexey Averkin/Bagua)
 [![Version](https://img.shields.io/cocoapods/v/Bagua.svg?style=flat)](https://cocoapods.org/pods/Bagua)
 [![License](https://img.shields.io/cocoapods/l/Bagua.svg?style=flat)](https://cocoapods.org/pods/Bagua)
 [![Platform](https://img.shields.io/cocoapods/p/Bagua.svg?style=flat)](https://cocoapods.org/pods/Bagua)
@@ -9,7 +8,9 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+## About
+
+This pod is still highly unstable, please make sure you are not using it in production code
 
 ## Installation
 

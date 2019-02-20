@@ -9,20 +9,9 @@
 import CoreData
 
 public protocol ManagedObject: class {
-    associatedtype PrimaryKey: CVarArg & Equatable
+    associatedtype PrimaryKey: CVarArg & Hashable
     static func primaryKey() -> String
     var primaryId: PrimaryKey { get set }
 }
 
 public typealias Managed = NSManagedObject & ManagedObject
-
-public extension ManagedObject where Self: NSManagedObject {
-    
-    func newTransaction(in db: DAO, ctx: NSManagedObjectContext) -> Transaction {
-        return Transaction(container: db.container, ctx: ctx)
-    }
-    
-    func newWriteTransaction(in db: DAO, ctx: NSManagedObjectContext) -> WriteTransaction {
-        return WriteTransaction(container: db.container, ctx: ctx)
-    }
-}

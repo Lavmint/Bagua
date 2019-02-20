@@ -51,22 +51,6 @@ public class Transaction {
     }
 }
 
-//MARK: - Write
-public extension Transaction {
-    
-    public func write(_ block: ((_ w: WriteTransaction) throws -> Void)) throws {
-        try block(WriteTransaction(container: container, ctx: ctx))
-        if ctx.hasChanges {
-            do {
-                try ctx.save()
-            } catch {
-                ctx.rollback()
-                throw error
-            }
-        }
-    }
-}
-
 public class WriteTransaction: Transaction {
     
     @discardableResult
@@ -78,13 +62,13 @@ public class WriteTransaction: Transaction {
     
     public func update<Input, Output>(object: Input) throws where Input: InputCacheContract, Input.Output == Output, Output.Input == Input  {
         let obj = try create(Output.self, id: object.managedId)
-        try obj.update(with: object)
+        try obj.update(with: object, in: ctx, container: container)
     }
     
     public func update<Seq, Output>(objects: Seq) throws where Seq: Collection, Seq.Element: InputCacheContract, Seq.Element.Output == Output, Output.Input == Seq.Element  {
         for o in objects {
             let obj = try create(Seq.Element.Output.self, id: o.managedId)
-            try obj.update(with: o)
+            try obj.update(with: o, in: ctx, container: container)
         }
     }
     
