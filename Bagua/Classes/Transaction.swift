@@ -13,7 +13,7 @@ public class Transaction {
     fileprivate let ctx: NSManagedObjectContext
     fileprivate let container: NSPersistentContainer
     
-    internal init(container: NSPersistentContainer, ctx: NSManagedObjectContext) {
+    public init(container: NSPersistentContainer, ctx: NSManagedObjectContext) {
         self.container = container
         self.ctx = ctx
     }
