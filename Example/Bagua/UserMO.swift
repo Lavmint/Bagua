@@ -28,8 +28,8 @@ extension UserMO: ManagedObject {
 extension UserMO: OutputCacheContract {
     
     public func update(with object: User, in context: NSManagedObjectContext, container: NSPersistentContainer) throws {
-        updateIfNeeded(&name, newValue: object.name)
-        updateIfNeeded(&surname, newValue: object.surname)
-        updateIfNeeded(&sex, newValue: object.sex.rawValue)
+        name <? object.name
+        surname <? object.surname
+        sex <? object.sex.rawValue
     }
 }

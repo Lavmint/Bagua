@@ -19,24 +19,6 @@ public extension OutputCacheContract where Self == Input.Output {
     public var object: Input? {
         return Input.init(mo: self)
     }
-
-    public func updateIfNeeded<T: Equatable>(_ value: inout T?, newValue: T) {
-        if newValue != value {
-            value = newValue
-        }
-    }
-    
-    public func updateIfNeeded<T: Equatable>(_ value: inout T, newValue: T?) {
-        if let val = newValue, value != val {
-            value = val
-        }
-    }
-    
-    public func updateIfNeeded<T: Equatable>(_ value: inout T, newValue: T) {
-        if value != newValue {
-            value = newValue
-        }
-    }
 }
 
 public protocol InputCacheContract: Hashable, CustomStringConvertible {
