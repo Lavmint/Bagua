@@ -204,9 +204,7 @@ public extension ContextChangesInfo {
                             tasks.insert(o)
                         }
                     }
-                    OperationQueue.Bagua.concurentBackground.addOperation {
-                        block(tasks.map({ $0.primaryId }))
-                    }
+                    block(tasks.map({ $0.primaryId }))
                     break l1
                 }
             }

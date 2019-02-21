@@ -68,104 +68,34 @@ open class DAO {
     public func async(await: (() throws -> Void)? = nil, ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
         switch ctx {
         case .view:
-            OperationQueue.main.addOperation { [weak self] in
-                guard let welf = self else { return }
+            container.viewContext.performAndWait {
                 do {
-                    try welf.execute(ctx: ctx, context: welf.container.viewContext, block: block)
+                    try self.execute(ctx: ctx, context: self.container.viewContext, block: block)
                     try await?()
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
             }
         case .background:
-            OperationQueue.Bagua.concurentBackground.addOperation { [weak self] in
-                guard let welf = self else { return }
-                defer {
-                    OperationQueue.Bagua.concurentBackground.addOperation {
-                        do {
-                            try await?()
-                        } catch {
-                            assertionFailure(error.localizedDescription)
-                        }
-                    }
-                }
+            let context = container.newBackgroundContext()
+            context.performAndWait {
                 do {
-                    try welf.execute(ctx: ctx, context: welf.container.newBackgroundContext(), block: block)
+                    try self.execute(ctx: ctx, context: context, block: block)
+                    try await?()
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
             }
         case .unsafeBackground(ctx: let context):
-            OperationQueue.Bagua.concurentBackground.addOperation { [weak self] in
-                guard let welf = self else { return }
-                defer {
-                    OperationQueue.Bagua.concurentBackground.addOperation {
-                        do {
-                            try await?()
-                        } catch {
-                            assertionFailure(error.localizedDescription)
-                        }
-                    }
-                }
+            context.performAndWait {
                 do {
-                    try welf.execute(ctx: ctx, context: context, block: block)
+                    try self.execute(ctx: ctx, context: context, block: block)
+                    try await?()
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
+                
             }
         }
-    }
-    
-    ///write transaction performed only in background
-    public func write(await: (() throws -> Void)? = nil, _ block: @escaping ((_ w: WriteTransaction) throws -> Void)) {
-        OperationQueue.Bagua.serialBackground.addOperation { [weak self] in
-            guard let welf = self else { return }
-            defer {
-                OperationQueue.Bagua.concurentBackground.addOperation {
-                    do {
-                        try await?()
-                    } catch {
-                        assertionFailure(error.localizedDescription)
-                    }
-                }
-            }
-            do {
-                let ctx = welf.container.newBackgroundContext()
-                try welf.execute(ctx: .background, context: ctx, block: { r in
-                    try block(WriteTransaction(container: welf.container, ctx: ctx))
-                    if ctx.hasChanges {
-                        do {
-                            try ctx.save()
-                        } catch {
-                            ctx.rollback()
-                            throw error
-                        }
-                    }
-                })
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
-    }
-}
-
-public extension OperationQueue {
-    
-    public enum Bagua {
-        
-        public static let serialBackground: OperationQueue = {
-            let op = OperationQueue()
-            op.qualityOfService = .background
-            op.name = "org.cocoapods.bagua.queue.background.serial"
-            op.maxConcurrentOperationCount = 1
-            return op
-        }()
-        
-        public static let concurentBackground: OperationQueue = {
-            let op = OperationQueue()
-            op.qualityOfService = .background
-            op.name = "org.cocoapods.bagua.queue.background.concurent"
-            return op
-        }()
     }
 }

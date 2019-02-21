@@ -59,6 +59,8 @@ class ViewController: UIViewController {
         do {
             try db.bagua.sync(ctx: .background, { (t) in
                 
+                print("====== PRINTING ======")
+                
                 t.dictionaries(UserMO.self).configure({ (r) in
                     r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
                 }).print()
@@ -85,22 +87,45 @@ class ViewController: UIViewController {
             User(phone: "+33432535325", name: "Marceline", surname: "the Vampire Queen", sex: .female)
         ])
         
-        try db.bagua.write({ (w) in
-            try w.drop()
-            try w.update(objects: users)
+        db.bagua.async(ctx: .background, { (t) in
+            try t.write({ (w) in
+                try w.drop()
+                try w.update(objects: users)
+            })
         })
         
-        try db.bagua.write({ (w) in
-            let user = try w.objects(User.self).find(id: "+79349569345")!.object!
-            user.name = "Pitter is not a Pitter"
-            try w.update(object: user)
+        db.bagua.async(ctx: .background, { (t) in
+            try t.write({ (w) in
+                if let o = try t.objects(UserMO.self).find(id: "+33432535325") {
+                    try w.delete(object: o)
+                }
+                try w.update(objects: users)
+            })
         })
         
-        try db.bagua.write({ (w) in
-            let user = try w.objects(UserMO.self).find(id: "+63234535356")!.object!
-            user.surname = "Finn is not Finn"
-            try w.update(object: user)
+        db.bagua.async(ctx: .background, { (t) in
+            try t.write({ (w) in
+                let user = try w.objects(User.self).find(id: "+79349569345")!.object!
+                user.name = "Pitter is not a Pitter"
+                try w.update(object: user)
+            })
         })
+        
+        db.bagua.async(ctx: .background, { (t) in
+            try t.write({ (w) in
+                let user = try w.objects(UserMO.self).find(id: "+63234535356")!.object!
+                user.surname = "Finn is not Finn"
+                try w.update(object: user)
+            })
+        })
+        
+        for _ in 0..<1000 {
+            db.bagua.async(ctx: .background, { (t) in
+                try t.write({ (w) in
+                    try w.update(objects: users)
+                })
+            })
+        }
     }
     
 }

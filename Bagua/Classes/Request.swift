@@ -51,8 +51,11 @@ public extension Request where Result: FetchableType {
     public func find(id: Object.PrimaryKey) throws -> Result? {
         let p = id is NSNumber ? "%d" : "%@"
         request.predicate = NSPredicate(format: "\(Object.primaryKey()) == \(p)", id)
-        request.fetchLimit = 1
-        return try ctx.fetch(request).first
+        let objects = try ctx.fetch(request)
+        if objects.count > 1 {
+            assertionFailure("Record in is not unique")
+        }
+        return objects.first
     }
     
     public func find(ids: [Object.PrimaryKey]) throws -> [Result] {
@@ -77,6 +80,16 @@ public extension Request where Result: NSNumber {
     
     public func count() throws -> Int {
         return try ctx.count(for: request)
+    }
+    
+    public func isExists(id: Object.PrimaryKey) throws -> Bool {
+        let p = id is NSNumber ? "%d" : "%@"
+        request.predicate = NSPredicate(format: "\(Object.primaryKey()) == \(p)", id)
+        let c = try count()
+        if c > 1 {
+            assertionFailure("Record in is not unique")
+        }
+        return c > 0
     }
 }
 

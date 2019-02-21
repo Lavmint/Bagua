@@ -54,7 +54,6 @@ public class Transaction {
 //MARK: - Write
 public extension Transaction {
     
-    @available(*, deprecated, message: "Use DAO.write instead")
     public func write(_ block: ((_ w: WriteTransaction) throws -> Void)) throws {
         try block(WriteTransaction(container: container, ctx: ctx))
         if ctx.hasChanges {
