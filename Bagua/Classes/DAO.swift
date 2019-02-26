@@ -71,7 +71,7 @@ open class DAO {
             container.viewContext.performAndWait {
                 do {
                     try self.execute(ctx: ctx, context: self.container.viewContext, block: block)
-                    OperationQueue.awaitOperationQueue.addOperation {
+                    OperationQueue.concurent.addOperation {
                         do {
                             try await?()
                         } catch {
@@ -87,7 +87,7 @@ open class DAO {
             context.performAndWait {
                 do {
                     try self.execute(ctx: ctx, context: context, block: block)
-                    OperationQueue.awaitOperationQueue.addOperation {
+                    OperationQueue.concurent.addOperation {
                         do {
                             try await?()
                         } catch {
@@ -102,8 +102,12 @@ open class DAO {
             context.performAndWait {
                 do {
                     try self.execute(ctx: ctx, context: context, block: block)
-                    OperationQueue.awaitOperationQueue.addOperation {
- 
+                    OperationQueue.concurent.addOperation {
+                        do {
+                            try await?()
+                        } catch {
+                            assertionFailure(error.localizedDescription)
+                        }
                     }
                 } catch {
                     assertionFailure(error.localizedDescription)
@@ -115,9 +119,9 @@ open class DAO {
 
 private extension OperationQueue {
     
-    static let awaitOperationQueue: OperationQueue = {
+    static let concurent: OperationQueue = {
        let op = OperationQueue()
-        op.name = "org.cocoapods.bagua.queue.operation.await"
+        op.name = "org.cocoapods.bagua.queue.operation.concurent"
         op.qualityOfService = .background
         return op
     }()
