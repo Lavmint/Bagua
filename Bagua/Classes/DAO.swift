@@ -54,7 +54,7 @@ open class DAO {
         }
     }
     
-    public func sync(ctx: Context, _ block: ((_ w: Transaction) throws -> Void)) throws {
+    public func sync(ctx: Context, _ block: ((_ t: Transaction) throws -> Void)) throws {
         switch ctx {
         case .view:
             try execute(ctx: ctx, context: container.viewContext, block: block)
@@ -65,13 +65,19 @@ open class DAO {
         }
     }
     
-    public func async(await: (() throws -> Void)? = nil, ctx: Context, _ block: @escaping ((_ w: Transaction) throws -> Void)) {
+    public func async(await: (() throws -> Void)? = nil, ctx: Context, _ block: @escaping ((_ t: Transaction) throws -> Void)) {
         switch ctx {
         case .view:
             container.viewContext.performAndWait {
                 do {
                     try self.execute(ctx: ctx, context: self.container.viewContext, block: block)
-                    try await?()
+                    OperationQueue.awaitOperationQueue.addOperation {
+                        do {
+                            try await?()
+                        } catch {
+                            assertionFailure(error.localizedDescription)
+                        }
+                    }
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
@@ -81,7 +87,13 @@ open class DAO {
             context.performAndWait {
                 do {
                     try self.execute(ctx: ctx, context: context, block: block)
-                    try await?()
+                    OperationQueue.awaitOperationQueue.addOperation {
+                        do {
+                            try await?()
+                        } catch {
+                            assertionFailure(error.localizedDescription)
+                        }
+                    }
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
@@ -90,12 +102,23 @@ open class DAO {
             context.performAndWait {
                 do {
                     try self.execute(ctx: ctx, context: context, block: block)
-                    try await?()
+                    OperationQueue.awaitOperationQueue.addOperation {
+ 
+                    }
                 } catch {
                     assertionFailure(error.localizedDescription)
                 }
-                
             }
         }
     }
+}
+
+private extension OperationQueue {
+    
+    static let awaitOperationQueue: OperationQueue = {
+       let op = OperationQueue()
+        op.name = "org.cocoapods.bagua.queue.operation.await"
+        op.qualityOfService = .background
+        return op
+    }()
 }
