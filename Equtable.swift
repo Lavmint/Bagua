@@ -9,19 +9,17 @@ import Foundation
 
 infix operator <?
 
+public extension Optional where Wrapped: Equatable {
+    
+    public static func <? (lhs: inout Optional<Wrapped>, rhs: Optional<Wrapped>) {
+        guard rhs != nil else { return }
+        if lhs != rhs {
+            lhs = rhs
+        }
+    }
+}
+
 public extension Equatable {
-    
-    public mutating func updateIfNeeded(newValue: Self) {
-        if newValue != self {
-            self = newValue
-        }
-    }
-    
-    public mutating func updateIfNeeded(newValue: Self?) {
-        if let val = newValue, self != val {
-            self = val
-        }
-    }
     
     public static func <? (lhs: inout Self, rhs: Self?) {
         if let val = rhs, lhs != val {

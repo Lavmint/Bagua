@@ -66,52 +66,29 @@ open class DAO {
     }
     
     public func async(await: (() throws -> Void)? = nil, ctx: Context, _ block: @escaping ((_ t: Transaction) throws -> Void)) {
+        
+        let context: NSManagedObjectContext
         switch ctx {
         case .view:
-            container.viewContext.performAndWait {
-                do {
-                    try self.execute(ctx: ctx, context: self.container.viewContext, block: block)
-                    OperationQueue.concurent.addOperation {
-                        do {
-                            try await?()
-                        } catch {
-                            assertionFailure(error.localizedDescription)
-                        }
-                    }
-                } catch {
-                    assertionFailure(error.localizedDescription)
-                }
-            }
+            context = container.viewContext
         case .background:
-            let context = container.newBackgroundContext()
-            context.performAndWait {
-                do {
-                    try self.execute(ctx: ctx, context: context, block: block)
-                    OperationQueue.concurent.addOperation {
-                        do {
-                            try await?()
-                        } catch {
-                            assertionFailure(error.localizedDescription)
-                        }
+            context = container.newBackgroundContext()
+        case .unsafeBackground(ctx: let c):
+            context = c
+        }
+        
+        context.performAndWait {
+            do {
+                try self.execute(ctx: ctx, context: context, block: block)
+                OperationQueue.concurent.addOperation {
+                    do {
+                        try await?()
+                    } catch {
+                        assertionFailure(error.localizedDescription)
                     }
-                } catch {
-                    assertionFailure(error.localizedDescription)
                 }
-            }
-        case .unsafeBackground(ctx: let context):
-            context.performAndWait {
-                do {
-                    try self.execute(ctx: ctx, context: context, block: block)
-                    OperationQueue.concurent.addOperation {
-                        do {
-                            try await?()
-                        } catch {
-                            assertionFailure(error.localizedDescription)
-                        }
-                    }
-                } catch {
-                    assertionFailure(error.localizedDescription)
-                }
+            } catch {
+                assertionFailure(error.localizedDescription)
             }
         }
     }

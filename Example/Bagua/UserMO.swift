@@ -28,7 +28,11 @@ extension UserMO: ManagedObject {
 extension UserMO: OutputCacheContract {
     
     public func update(with object: User, in context: NSManagedObjectContext, container: NSPersistentContainer) throws {
+        
         name <? object.name
+        name <? nil
+        assert(name != nil)
+        
         surname <? object.surname
         sex <? object.sex.rawValue
     }

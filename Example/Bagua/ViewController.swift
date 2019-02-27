@@ -119,9 +119,10 @@ class ViewController: UIViewController {
             })
         })
         
-        for _ in 0..<1000 {
+        for i in 0..<1000 {
             db.bagua.async(ctx: .background, { (t) in
                 try t.write({ (w) in
+                    users.first?.name = i % 2 == 0 ? "odd" : "even"
                     try w.update(objects: users)
                 })
             })
