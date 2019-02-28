@@ -24,6 +24,7 @@ public struct ContextChangesInfo {
     public fileprivate(set) var deletes = Set<NSManagedObject>()
     public fileprivate(set) var refreshes = Set<NSManagedObject>()
     public fileprivate(set) var invalidates = Set<NSManagedObject>()
+    public fileprivate(set) var changedKeys = Set<String>()
 }
 
 public class DAOListener {
@@ -92,29 +93,39 @@ public class DAOListener {
     private func collectContextChanges(from notification: Notification) -> ContextChangesInfo {
         
         guard let userInfo = notification.userInfo else {
-            return ContextChangesInfo(inserts: [], updates: [], deletes: [], refreshes: [], invalidates: [])
+            return ContextChangesInfo(inserts: [], updates: [], deletes: [], refreshes: [], invalidates: [], changedKeys: [])
         }
         
         var changes = ContextChangesInfo()
+        var objects = Set<NSManagedObject>()
         
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
             changes.inserts = inserts
+            objects = objects.union(inserts)
         }
         
         if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
             changes.updates = updates
+            objects = objects.union(updates)
         }
         
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
             changes.deletes = deletes
+            objects = objects.union(deletes)
         }
         
         if let invalidates = userInfo[NSInvalidatedObjectsKey] as? Set<NSManagedObject>, invalidates.count > 0 {
             changes.invalidates = invalidates
+            objects = objects.union(invalidates)
         }
         
         if let refreshes = userInfo[NSRefreshedObjectsKey] as? Set<NSManagedObject>, refreshes.count > 0 {
             changes.refreshes = refreshes
+            objects = objects.union(refreshes)
+        }
+        
+        for o in objects {
+            changes.changedKeys = changes.changedKeys.union(o.changedValues().keys)
         }
         
         return changes
@@ -199,7 +210,7 @@ public extension ContextChangesInfo {
                 
                 if !keys.isEmpty {
                     var isChangedKey = false
-                    for key in obj.changedValues().keys {
+                    for key in self.changedKeys {
                         if keys.contains(key) {
                             isChangedKey = true
                             break
