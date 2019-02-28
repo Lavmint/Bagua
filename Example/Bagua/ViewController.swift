@@ -12,38 +12,45 @@ import CoreData
 
 class ViewController: UIViewController {
 
-    lazy var daoListener: DAOListener = {
-        return DAOListener()
+    lazy var observer: TransactionObserver = {
+        return TransactionObserver()
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        daoListener.onWillExecuteTransaction = { _ in
+        observer.onWillExecuteTransaction = { _ in
             print("onWillExecuteTransaction")
         }
-        daoListener.onDidExecuteTransaction = { _ in
+        observer.onDidExecuteTransaction = { _ in
             print("onDidExecuteTransaction")
         }
-        daoListener.onWillSaveContext = {
+        observer.onWillSaveContext = { _ in
             print("onWillSaveContext")
         }
-        daoListener.onDidChangeContextObjects = { changes in
+        observer.onDidChangeContextObjects = { _, changes in
             print("onDidChangeContextObjects")
         }
         
-        daoListener.onDidSaveContext = { changes in
+        observer.onDidSaveContext = { _, changes in
             
-            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.name)], changes: [.update], ids: ["+79349569345"]) { ids in
+            changes.trigger(track: UserMO.self, forKeys: [
+                #keyPath(UserMO.name)
+            ], changes: [.update], ids: ["+79349569345"]) { ids in
                 self.debug()
+                print(changes.changedKeys)
             }
             
-            changes.trigger(track: UserMO.self, forKeys: [#keyPath(UserMO.surname)], changes: [.update], ids: ["+63234535356"]) { ids in
+            changes.trigger(track: UserMO.self, forKeys: [
+                #keyPath(UserMO.surname)
+            ], changes: [.update], ids: ["+63234535356"]) { ids in
                 self.debug()
+                print(changes.changedKeys)
             }
             
             changes.trigger(track: UserMO.self, changes: [.insert, .update, .delete]) { ids in
                 self.debug()
+                print(changes.changedKeys)
             }
             
         }
@@ -56,23 +63,11 @@ class ViewController: UIViewController {
     }
 
     func debug() {
-        do {
-            try db.bagua.sync(ctx: .background, { (t) in
-                
-                print("====== PRINTING ======")
-                
-                t.dictionaries(UserMO.self).configure({ (r) in
-                    r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
-                }).print()
-//
-//                let users = try t.objects(UserMO.self).configure({ (r) in
-//                    r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
-//                }).fetch().compactMap({ $0.object })
-//                print(users)
-                
-            })
-        } catch {
-            assertionFailure(error.localizedDescription)
+        db.bagua(context: .background).perform { (t) in
+            print("====== PRINTING ======")
+            t.dictionaries(UserMO.self).configure({ (r) in
+                r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
+            }).print()
         }
     }
     
@@ -87,46 +82,47 @@ class ViewController: UIViewController {
             User(phone: "+33432535325", name: "Marceline", surname: "the Vampire Queen", sex: .female)
         ])
         
-        db.bagua.async(ctx: .background, { (t) in
-            try t.write({ (w) in
-                try w.drop()
-                try w.update(objects: users)
-            })
-        })
-        
-        db.bagua.async(ctx: .background, { (t) in
-            try t.write({ (w) in
-                if let o = try t.objects(UserMO.self).find(id: "+33432535325") {
-                    try w.delete(object: o)
-                }
-                try w.update(objects: users)
-            })
-        })
-        
-        db.bagua.async(ctx: .background, { (t) in
-            try t.write({ (w) in
-                let user = try w.objects(User.self).find(id: "+79349569345")!.object!
-                user.name = "Pitter is not a Pitter"
-                try w.update(object: user)
-            })
-        })
-        
-        db.bagua.async(ctx: .background, { (t) in
-            try t.write({ (w) in
-                let user = try w.objects(UserMO.self).find(id: "+63234535356")!.object!
-                user.surname = "Finn is not Finn"
-                try w.update(object: user)
-            })
-        })
-        
-        for i in 0..<1000 {
-            db.bagua.async(ctx: .background, { (t) in
-                try t.write({ (w) in
-                    users.first?.name = i % 2 == 0 ? "odd" : "even"
-                    try w.update(objects: users)
-                })
-            })
+        db.bagua(context: .background).performAndWait { (t) in
+            try t.drop()
+            try t.update(objects: users)
         }
+        
+        db.bagua(context: .background).perform { (t) in
+            if let o = try t.objects(UserMO.self).find(id: "+33432535325") {
+                try t.delete(object: o)
+            }
+            try t.update(objects: users)
+        }
+        
+        db.bagua(context: .background).perform { (t) in
+            let user = try t.objects(User.self).find(id: "+79349569345")!.object!
+            user.name = "Pitter is not a Pitter"
+            try t.update(object: user)
+        }
+
+        db.bagua(context: .background).perform { (t) in
+            let user = try t.objects(UserMO.self).find(id: "+63234535356")!.object!
+            user.surname = "Finn is not Finn"
+            try t.update(object: user)
+        }
+        
+        db.bagua(context: .background).perform { (t) in
+            for _ in 0..<1000 {
+                for (j, u) in users.enumerated() {
+                    u.name = j % 2 == 0 ? "odd" : "even"
+                }
+                try t.update(objects: users)
+            }
+            t.observer.onDidExecuteTransaction = { info in
+                guard info.managedObjectContext === t.managedObjectContext else { return }
+                print("===== LONG ASYNC OPERATION ====")
+                self.debug()
+            }
+        }
+        
+//        let recycler = db.bagua(context: .view).objects(UserMO.self).tableViewRecycler()
+//        _ = recycler.object(atRow: 0, inSection: 0)
+
     }
     
 }

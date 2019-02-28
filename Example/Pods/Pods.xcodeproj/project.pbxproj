@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E5D80DDEE5FE57F3D2609B0B54D908D /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */; };
 		28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */; };
 		2A33E997D625F1127BB7BAD4F48591C8 /* ManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */; };
 		30FE881440D8987923372F0B039D5769 /* Pods-Bagua_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -22,7 +21,10 @@
 		9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */; };
 		C5F3519C9C1B3E1E9BA08BDA804E33F9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */; };
 		F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */; };
-		FA48315621EF46A800BECE0E /* DAOListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA48315521EF46A800BECE0E /* DAOListener.swift */; };
+		FA48315621EF46A800BECE0E /* TransactionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA48315521EF46A800BECE0E /* TransactionObserver.swift */; };
+		FADE637122285BAB002BACE7 /* Transaction+R.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE637022285BAB002BACE7 /* Transaction+R.swift */; };
+		FADE637322285BD7002BACE7 /* Transaction+W.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE637222285BD7002BACE7 /* Transaction+W.swift */; };
+		FADE6378222875C8002BACE7 /* BaguaManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE6377222875C8002BACE7 /* BaguaManagedObjectContext.swift */; };
 		FC30DA72D4B9D0AEA649530AD4F1A0F5 /* Bagua-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -38,23 +40,22 @@
 
 /* Begin PBXFileReference section */
 		005A5A076CA123D9F77E6D35AF9FC44B /* Pods-Bagua_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bagua_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collection.swift; path = Bagua/Classes/Collection.swift; sourceTree = "<group>"; };
+		054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		0DF150A12D4980F9E7B5031E5412719A /* Pods-Bagua_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.release.xcconfig"; sourceTree = "<group>"; };
 		16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		179EC150BE73B7994A6541E1C4FB6139 /* Bagua.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = Bagua.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1E226A1D28CEAFC226C3FB2CAAB63478 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CacheContract .swift"; path = "Bagua/Classes/CacheContract .swift"; sourceTree = "<group>"; };
-		36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecyclerController.swift; path = Bagua/Classes/RecyclerController.swift; sourceTree = "<group>"; };
+		368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CacheContract .swift"; sourceTree = "<group>"; };
+		36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RecyclerController.swift; sourceTree = "<group>"; };
 		37B1DD84EBF0E9265BD8786DE525C709 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		398EBAB0221E990F00B54AE4 /* Equtable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equtable.swift; sourceTree = "<group>"; };
 		4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-umbrella.h"; sourceTree = "<group>"; };
 		5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bagua_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ManagedObject.swift; path = Bagua/Classes/ManagedObject.swift; sourceTree = "<group>"; };
+		516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ManagedObject.swift; sourceTree = "<group>"; };
 		56496A6AFA76089C261CB3354AFEF585 /* Bagua-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-prefix.pch"; sourceTree = "<group>"; };
-		619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSFetchedResultsControllerDelegate.swift; path = Bagua/Classes/NSFetchedResultsControllerDelegate.swift; sourceTree = "<group>"; };
-		64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DAO.swift; path = Bagua/Classes/DAO.swift; sourceTree = "<group>"; };
-		6A98B8B388E22951CDDBF1075280A60A /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Bagua/Classes/Request.swift; sourceTree = "<group>"; };
+		619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSFetchedResultsControllerDelegate.swift; sourceTree = "<group>"; };
+		6A98B8B388E22951CDDBF1075280A60A /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		6BE83978C6E46C90F00587AF00DE95ED /* Bagua.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bagua.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FCC042D28A9C0D500D242CC06567DD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		74BE1459DB06BD3BE128AF3E784374A2 /* Pods-Bagua_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bagua_Example-resources.sh"; sourceTree = "<group>"; };
@@ -67,10 +68,13 @@
 		B94043A3E8B237C9884F097DBC8A1256 /* Bagua.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Bagua.modulemap; sourceTree = "<group>"; };
 		BC6D37929C68A53526F2AD3B80EB86C9 /* Bagua.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Bagua.xcconfig; sourceTree = "<group>"; };
 		BD1957ECB8AD7154B217D23EE89F014F /* Pods-Bagua_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bagua_Example-frameworks.sh"; sourceTree = "<group>"; };
-		C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = Bagua/Classes/Transaction.swift; sourceTree = "<group>"; };
+		C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bagua_Example-umbrella.h"; sourceTree = "<group>"; };
-		FA48315521EF46A800BECE0E /* DAOListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DAOListener.swift; path = Bagua/Classes/DAOListener.swift; sourceTree = "<group>"; };
+		FA48315521EF46A800BECE0E /* TransactionObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionObserver.swift; sourceTree = "<group>"; };
+		FADE637022285BAB002BACE7 /* Transaction+R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+R.swift"; sourceTree = "<group>"; };
+		FADE637222285BD7002BACE7 /* Transaction+W.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+W.swift"; sourceTree = "<group>"; };
+		FADE6377222875C8002BACE7 /* BaguaManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaguaManagedObjectContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,16 +179,9 @@
 		B2535E696BCE0C4E5BCC287ABC28141D /* Bagua */ = {
 			isa = PBXGroup;
 			children = (
-				368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */,
-				054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */,
-				64C5493FD58D122769AB00670D17C8C3 /* DAO.swift */,
-				FA48315521EF46A800BECE0E /* DAOListener.swift */,
-				516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */,
-				619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */,
-				36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */,
-				C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */,
-				398EBAB0221E990F00B54AE4 /* Equtable.swift */,
-				6A98B8B388E22951CDDBF1075280A60A /* Request.swift */,
+				FADE637422285C61002BACE7 /* Transaction */,
+				FADE637522285C70002BACE7 /* ManagedObject */,
+				FADE637622285CA0002BACE7 /* ManagedCollection */,
 				4CB7C473FE760FA567CE862350D8FBB4 /* Pod */,
 				7BE2E2C731D123E2610C823DB9185F0C /* Support Files */,
 			);
@@ -207,6 +204,39 @@
 				27AA26547F61D60F87F0718A27FB63C9 /* Foundation.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		FADE637422285C61002BACE7 /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				6A98B8B388E22951CDDBF1075280A60A /* Request.swift */,
+				C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */,
+				FADE637022285BAB002BACE7 /* Transaction+R.swift */,
+				FADE637222285BD7002BACE7 /* Transaction+W.swift */,
+				FA48315521EF46A800BECE0E /* TransactionObserver.swift */,
+				FADE6377222875C8002BACE7 /* BaguaManagedObjectContext.swift */,
+			);
+			path = Transaction;
+			sourceTree = "<group>";
+		};
+		FADE637522285C70002BACE7 /* ManagedObject */ = {
+			isa = PBXGroup;
+			children = (
+				398EBAB0221E990F00B54AE4 /* Equtable.swift */,
+				368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */,
+				516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */,
+			);
+			path = ManagedObject;
+			sourceTree = "<group>";
+		};
+		FADE637622285CA0002BACE7 /* ManagedCollection */ = {
+			isa = PBXGroup;
+			children = (
+				054799AFD7724CDC8BF388B38D3B4B81 /* Collection.swift */,
+				36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */,
+				619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */,
+			);
+			path = ManagedCollection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,14 +349,16 @@
 			files = (
 				398EBAB1221E990F00B54AE4 /* Equtable.swift in Sources */,
 				F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */,
-				FA48315621EF46A800BECE0E /* DAOListener.swift in Sources */,
+				FA48315621EF46A800BECE0E /* TransactionObserver.swift in Sources */,
+				FADE637322285BD7002BACE7 /* Transaction+W.swift in Sources */,
 				5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */,
 				9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */,
-				0E5D80DDEE5FE57F3D2609B0B54D908D /* DAO.swift in Sources */,
+				FADE637122285BAB002BACE7 /* Transaction+R.swift in Sources */,
 				2A33E997D625F1127BB7BAD4F48591C8 /* ManagedObject.swift in Sources */,
 				37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */,
 				28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */,
 				795057ADD2825E9DFFF56033FCEE6B83 /* Request.swift in Sources */,
+				FADE6378222875C8002BACE7 /* BaguaManagedObjectContext.swift in Sources */,
 				51479C8D0339DADFDF7896D59892A988 /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

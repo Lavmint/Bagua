@@ -5,9 +5,11 @@
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="surname" optional="YES" attributeType="String" syncable="YES"/>
-        <fetchIndex name="byPropertyIndex">
-            <fetchIndexElement property="phone" type="Binary" order="ascending"/>
-        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="phone"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="UserMO" positionX="-63" positionY="-18" width="128" height="105"/>

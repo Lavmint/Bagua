@@ -9,9 +9,9 @@
 import Bagua
 import CoreData
 
-public enum db {
+fileprivate extension NSPersistentContainer {
     
-    public static let bagua: DAO = {
+    static let bagua: NSPersistentContainer = {
         
         let container = NSPersistentContainer(
             name: "Bagua",
@@ -30,16 +30,17 @@ public enum db {
             container.viewContext.automaticallyMergesChangesFromParent = true
         })
         
-        let listener = DAOListener()
-        listener.onWillExecuteTransaction = { info in
-            info.managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        }
-        
-        let dao = DAO(container: container)
-        dao.observer = listener
-        
-        return dao
+        return container
         
     }()
     
+}
+
+public enum db {
+    
+    public static func bagua(context: Context) -> Transaction {
+        let t = Transaction(context: context, container: NSPersistentContainer.bagua)
+        t.managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        return t
+    }
 }

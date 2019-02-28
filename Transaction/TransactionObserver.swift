@@ -27,7 +27,7 @@ public struct ContextChangesInfo {
     public fileprivate(set) var changedKeys = Set<String>()
 }
 
-public class DAOListener {
+public class TransactionObserver {
     
     enum NotificationKeys: String {
         case transactionInfo
@@ -35,10 +35,9 @@ public class DAOListener {
     
     public var onWillExecuteTransaction: ((TransactionInfo) -> Void)?
     public var onDidExecuteTransaction: ((TransactionInfo) -> Void)?
-    public var onWillSaveContext: (() -> Void)?
-    public var onDidChangeContextObjects: ((ContextChangesInfo) -> Void)?
-    public var onDidSaveContext: ((ContextChangesInfo) -> Void)?
-    private var changes: [Int: ContextChangesInfo] = [:]
+    public var onWillSaveContext: ((NSManagedObjectContext) -> Void)?
+    public var onDidChangeContextObjects: ((NSManagedObjectContext, ContextChangesInfo) -> Void)?
+    public var onDidSaveContext: ((NSManagedObjectContext, ContextChangesInfo) -> Void)?
     
     public init() {
         NotificationCenter.default.addObserver(
@@ -68,26 +67,32 @@ public class DAOListener {
     }
     
     @objc private func willSaveContext(_ notification: Notification) {
-        onWillSaveContext?()
+        onWillSaveContext?(notification.object! as! NSManagedObjectContext)
     }
     
     @objc private func didChangeContextObjects(_ notification: Notification) {
-        guard let context = notification.object as? NSManagedObjectContext else {
-            assertionFailure()
-            return
-        }
         let changes = collectContextChanges(from: notification)
-        self.changes.updateValue(changes, forKey: context.hash)
-        onDidChangeContextObjects?(changes)
+        if let managedObjectContext = notification.object as? BaguaManagedObjectContext {
+            managedObjectContext.changes = changes
+        }
+        onDidChangeContextObjects?(notification.object! as! NSManagedObjectContext, changes)
     }
     
     @objc private func didSaveContext(_ notification: Notification) {
-        guard let context = notification.object as? NSManagedObjectContext, let changes = changes[context.hash] else {
-            assertionFailure()
-            return
+        if let managedObjectContext = notification.object as? BaguaManagedObjectContext,
+            let changes = managedObjectContext.changes,
+            let context = managedObjectContext.context {
+            onDidSaveContext?(managedObjectContext, changes)
+            let info = TransactionInfo(context: context, managedObjectContext: managedObjectContext)
+            let didExecuteTransactionNotification = Notification(
+                name: .didExecuteTransaction,
+                object: nil,
+                userInfo: [TransactionObserver.NotificationKeys.transactionInfo.rawValue: info]
+            )
+            NotificationCenter.default.post(didExecuteTransactionNotification)
+        } else {
+            onDidSaveContext?(notification.object! as! NSManagedObjectContext, collectContextChanges(from: notification))
         }
-        onDidSaveContext?(changes)
-        self.changes.removeValue(forKey: context.hash)
     }
     
     private func collectContextChanges(from notification: Notification) -> ContextChangesInfo {

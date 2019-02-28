@@ -13,6 +13,10 @@ extension NSDictionary: FetchableType {}
 extension NSManagedObject: FetchableType {}
 extension NSManagedObjectID: FetchableType {}
 
+public enum RequestError: Error {
+    case notViewContext
+}
+
 public class Request<Object: Managed, Result: NSFetchRequestResult> {
     
     public private(set) var request: NSFetchRequest<Result>
@@ -44,17 +48,27 @@ public class Request<Object: Managed, Result: NSFetchRequestResult> {
         configurator(request)
         return self
     }
+    
+    private func primaryKeyEquals(value: CVarArg) -> NSPredicate {
+        let keyFormat: String
+        switch value {
+        case is NSNumber:
+            keyFormat = "%d"
+        case is NSString:
+            keyFormat = "%@"
+        default:
+            assertionFailure()
+            keyFormat = ""
+        }
+        return NSPredicate(format: "\(Object.primaryKey()) == \(keyFormat)", value)
+    }
 }
 
 public extension Request where Result: FetchableType {
     
     public func find(id: Object.PrimaryKey) throws -> Result? {
-        let p = id is NSNumber ? "%d" : "%@"
-        request.predicate = NSPredicate(format: "\(Object.primaryKey()) == \(p)", id)
+        request.predicate = primaryKeyEquals(value: id)
         let objects = try ctx.fetch(request)
-        if objects.count > 1 {
-            assertionFailure("Record in is not unique")
-        }
         return objects.first
     }
     
@@ -69,7 +83,7 @@ public extension Request where Result: FetchableType {
     
     public func frc(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> NSFetchedResultsController<Result> {
         guard isViewContext else {
-            fatalError("Oops you must use viewContext")
+            fatalError(RequestError.notViewContext.localizedDescription)
         }
         let f = NSFetchedResultsController(fetchRequest: request, managedObjectContext: ctx, sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName)
         return f
@@ -83,13 +97,8 @@ public extension Request where Result: NSNumber {
     }
     
     public func isExists(id: Object.PrimaryKey) throws -> Bool {
-        let p = id is NSNumber ? "%d" : "%@"
-        request.predicate = NSPredicate(format: "\(Object.primaryKey()) == \(p)", id)
-        let c = try count()
-        if c > 1 {
-            assertionFailure("Record in is not unique")
-        }
-        return c > 0
+        request.predicate = primaryKeyEquals(value: id)
+        return try count() > 0
     }
 }
 
@@ -115,10 +124,17 @@ public extension Request where Result: NSDictionary {
 
 public extension Request where Result: Managed, Result == Object {
     
-    public func recycler(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> RecyclerController<Object> {
+    public func tableViewRecycler(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> TableViewRecycler<Object> {
         guard isViewContext else {
-            fatalError("Oops you must use viewContext")
+            fatalError(RequestError.notViewContext.localizedDescription)
         }
-        return RecyclerController<Object>(frc: frc(sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName))
+        return TableViewRecycler<Object>(frc: frc(sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName))
+    }
+    
+    public func collectionViewRecycler(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> CollectionViewRecycler<Object> {
+        guard isViewContext else {
+            fatalError(RequestError.notViewContext.localizedDescription)
+        }
+        return CollectionViewRecycler<Object>(frc: frc(sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName))
     }
 }
