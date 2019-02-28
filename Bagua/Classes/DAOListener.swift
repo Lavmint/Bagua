@@ -223,7 +223,7 @@ public extension ContextChangesInfo {
                     var tasks = Set<T>()
                     for ch in changes {
                         for obj in ch {
-                            guard let o = obj as? T else { continue }
+                            guard let o = obj as? T, obj.value(forKey: T.primaryKey()) != nil else { continue }
                             tasks.insert(o)
                         }
                     }
