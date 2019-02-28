@@ -60,7 +60,8 @@ public extension Transaction {
             do {
                 try ctx.save()
             } catch {
-                assertionFailure(error.localizedDescription)
+                ctx.rollback()
+                throw error
             }
         }
     }
