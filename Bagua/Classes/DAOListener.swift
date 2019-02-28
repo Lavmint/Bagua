@@ -37,6 +37,7 @@ public class DAOListener {
     public var onWillSaveContext: (() -> Void)?
     public var onDidChangeContextObjects: ((ContextChangesInfo) -> Void)?
     public var onDidSaveContext: ((ContextChangesInfo) -> Void)?
+    private var changes: [Int: ContextChangesInfo] = [:]
     
     public init() {
         NotificationCenter.default.addObserver(
@@ -70,11 +71,22 @@ public class DAOListener {
     }
     
     @objc private func didChangeContextObjects(_ notification: Notification) {
-        onDidChangeContextObjects?(collectContextChanges(from: notification))
+        guard let context = notification.object as? NSManagedObjectContext else {
+            assertionFailure()
+            return
+        }
+        let changes = collectContextChanges(from: notification)
+        self.changes.updateValue(changes, forKey: context.hash)
+        onDidChangeContextObjects?(changes)
     }
     
     @objc private func didSaveContext(_ notification: Notification) {
-        onDidSaveContext?(collectContextChanges(from: notification))
+        guard let context = notification.object as? NSManagedObjectContext, let changes = changes[context.hash] else {
+            assertionFailure()
+            return
+        }
+        onDidSaveContext?(changes)
+        self.changes.removeValue(forKey: context.hash)
     }
     
     private func collectContextChanges(from notification: Notification) -> ContextChangesInfo {
