@@ -18,13 +18,13 @@ extension Transaction {
     
     public func update<Input, Output>(object: Input) throws where Input: InputCacheContract, Input.Output == Output, Output.Input == Input  {
         let obj = try create(Output.self, id: object.managedId)
-        try obj.update(with: object, in: managedObjectContext, container: container)
+        try obj.update(with: object, in: self)
     }
     
     public func update<Seq, Output>(objects: Seq) throws where Seq: Collection, Seq.Element: InputCacheContract, Seq.Element.Output == Output, Output.Input == Seq.Element  {
         for o in objects {
             let obj = try create(Seq.Element.Output.self, id: o.managedId)
-            try obj.update(with: o, in: managedObjectContext, container: container)
+            try obj.update(with: o, in: self)
         }
     }
     
@@ -42,7 +42,7 @@ extension Transaction {
     }
     
     public func drop() throws {
-        try container.managedObjectModel.entities.forEach { (entity) in
+        try managedObjectContext.persistentStoreCoordinator?.managedObjectModel.entities.forEach { (entity) in
             let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name!)
             let request = NSBatchDeleteRequest(fetchRequest: fetch)
             try delete(request: request)

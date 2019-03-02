@@ -22,9 +22,9 @@
 		C5F3519C9C1B3E1E9BA08BDA804E33F9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FCDE1D77EAF9FA582977498442221B /* CoreData.framework */; };
 		F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B3D203F8EB57AAA2131A0C318E8AC823 /* Bagua-dummy.m */; };
 		FA48315621EF46A800BECE0E /* TransactionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA48315521EF46A800BECE0E /* TransactionObserver.swift */; };
+		FA7BA3AD222AD854000B7DEB /* BGManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7BA3AC222AD854000B7DEB /* BGManagedObjectContext.swift */; };
 		FADE637122285BAB002BACE7 /* Transaction+R.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE637022285BAB002BACE7 /* Transaction+R.swift */; };
 		FADE637322285BD7002BACE7 /* Transaction+W.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE637222285BD7002BACE7 /* Transaction+W.swift */; };
-		FADE6378222875C8002BACE7 /* BaguaManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE6377222875C8002BACE7 /* BaguaManagedObjectContext.swift */; };
 		FC30DA72D4B9D0AEA649530AD4F1A0F5 /* Bagua-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -72,9 +72,9 @@
 		C548199EB9146E83A856A6264218BB1F /* Pods-Bagua_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bagua_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bagua_Example-umbrella.h"; sourceTree = "<group>"; };
 		FA48315521EF46A800BECE0E /* TransactionObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionObserver.swift; sourceTree = "<group>"; };
+		FA7BA3AC222AD854000B7DEB /* BGManagedObjectContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGManagedObjectContext.swift; sourceTree = "<group>"; };
 		FADE637022285BAB002BACE7 /* Transaction+R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+R.swift"; sourceTree = "<group>"; };
 		FADE637222285BD7002BACE7 /* Transaction+W.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+W.swift"; sourceTree = "<group>"; };
-		FADE6377222875C8002BACE7 /* BaguaManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaguaManagedObjectContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,7 +214,7 @@
 				FADE637022285BAB002BACE7 /* Transaction+R.swift */,
 				FADE637222285BD7002BACE7 /* Transaction+W.swift */,
 				FA48315521EF46A800BECE0E /* TransactionObserver.swift */,
-				FADE6377222875C8002BACE7 /* BaguaManagedObjectContext.swift */,
+				FA7BA3AC222AD854000B7DEB /* BGManagedObjectContext.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -350,6 +350,7 @@
 				398EBAB1221E990F00B54AE4 /* Equtable.swift in Sources */,
 				F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */,
 				FA48315621EF46A800BECE0E /* TransactionObserver.swift in Sources */,
+				FA7BA3AD222AD854000B7DEB /* BGManagedObjectContext.swift in Sources */,
 				FADE637322285BD7002BACE7 /* Transaction+W.swift in Sources */,
 				5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */,
 				9F0C4113E892895B38146AC73CEB8D5C /* Collection.swift in Sources */,
@@ -358,7 +359,6 @@
 				37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */,
 				28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */,
 				795057ADD2825E9DFFF56033FCEE6B83 /* Request.swift in Sources */,
-				FADE6378222875C8002BACE7 /* BaguaManagedObjectContext.swift in Sources */,
 				51479C8D0339DADFDF7896D59892A988 /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,7 @@ import CoreData
 
 public protocol OutputCacheContract {
     associatedtype Input: InputCacheContract
-    func update(with object: Input, in context: NSManagedObjectContext, container: NSPersistentContainer) throws
+    func update(with object: Input, in transaction: Transaction) throws
 }
 
 public extension OutputCacheContract where Self == Input.Output {

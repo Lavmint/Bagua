@@ -8,16 +8,9 @@
 
 import CoreData
 
-public enum Context {
-    case view
-    case background
-    case unsafeBackground(managedObjectContext: NSManagedObjectContext)
-}
-
 public class Transaction {
     
-    public let context: Context
-    public let container: NSPersistentContainer
+    public let uuid: UUID
     public let managedObjectContext: NSManagedObjectContext
     
     ///will be inited only if needed
@@ -25,63 +18,31 @@ public class Transaction {
         return TransactionObserver()
     }()
     
-    public init(context: Context, container: NSPersistentContainer) {
-        self.context = context
-        self.container = container
-        switch context {
-        case .view:
-            managedObjectContext = container.viewContext
-        case .background:
-            let managedObjectContext = BaguaManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            managedObjectContext.context = .background
-            managedObjectContext.persistentStoreCoordinator = container.persistentStoreCoordinator
-            self.managedObjectContext = managedObjectContext
-        case .unsafeBackground(managedObjectContext: let c):
-            managedObjectContext = c
-        }
+    public init(managedObjectContext: NSManagedObjectContext) {
+        self.managedObjectContext = managedObjectContext
+        self.uuid = UUID()
     }
     
-    public func perform(block: @escaping (_ transaction: Transaction) throws -> Void) {
-        managedObjectContext.perform {
-            do {
-                try self.main(block: block)
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
-    }
-    
-    public func performAndWait(block: (_ transaction: Transaction) throws -> Void) {
-        managedObjectContext.performAndWait {
-            do {
-                try main(block: block)
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func main(block: (_ transaction: Transaction) throws -> Void) throws {
-        switch context {
-        case .view:
+    internal func main(block: (_ transaction: Transaction) throws -> Void) throws {
+        if managedObjectContext.concurrencyType == .mainQueueConcurrencyType {
             try block(self)
             try commit()
-        default:
-            let info = TransactionInfo(context: context, managedObjectContext: managedObjectContext)
+        } else {
+            let info = TransactionInfo(uuid: uuid, managedObjectContext: managedObjectContext)
             let willExecuteTransactionNotification = Notification(
                 name: .willExecuteTransaction,
                 object: nil,
                 userInfo: [TransactionObserver.NotificationKeys.transactionInfo.rawValue: info]
             )
-
+            
             NotificationCenter.default.post(willExecuteTransactionNotification)
             try block(self)
             try commit()
         }
-        
     }
     
     private func commit() throws {
+        
         if managedObjectContext.hasChanges {
             do {
                 try managedObjectContext.save()
@@ -89,14 +50,14 @@ public class Transaction {
                 managedObjectContext.rollback()
                 throw error
             }
-        } else {
-            let info = TransactionInfo(context: context, managedObjectContext: managedObjectContext)
-            let didExecuteTransactionNotification = Notification(
-                name: .didExecuteTransaction,
-                object: nil,
-                userInfo: [TransactionObserver.NotificationKeys.transactionInfo.rawValue: info]
-            )
-            NotificationCenter.default.post(didExecuteTransactionNotification)
         }
+        
+        let info = TransactionInfo(uuid: uuid, managedObjectContext: managedObjectContext)
+        let didExecuteTransactionNotification = Notification(
+            name: .didExecuteTransaction,
+            object: nil,
+            userInfo: [TransactionObserver.NotificationKeys.transactionInfo.rawValue: info]
+        )
+        NotificationCenter.default.post(didExecuteTransactionNotification)
     }
 }

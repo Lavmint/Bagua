@@ -27,7 +27,7 @@ extension UserMO: ManagedObject {
 
 extension UserMO: OutputCacheContract {
     
-    public func update(with object: User, in context: NSManagedObjectContext, container: NSPersistentContainer) throws {
+    public func update(with object: User, in transaction: Transaction) throws {
         
         name <? object.name
         name <? nil

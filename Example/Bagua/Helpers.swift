@@ -9,11 +9,11 @@
 import Bagua
 import CoreData
 
-fileprivate extension NSPersistentContainer {
+public enum db {
     
     static let bagua: NSPersistentContainer = {
         
-        let container = NSPersistentContainer(
+        let container = BGPersistentContainer(
             name: "Bagua",
             managedObjectModel: NSManagedObjectModel(
                 contentsOf: Bundle.main.url(
@@ -33,14 +33,4 @@ fileprivate extension NSPersistentContainer {
         return container
         
     }()
-    
-}
-
-public enum db {
-    
-    public static func bagua(context: Context) -> Transaction {
-        let t = Transaction(context: context, container: NSPersistentContainer.bagua)
-        t.managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        return t
-    }
 }

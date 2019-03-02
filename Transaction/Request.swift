@@ -20,15 +20,14 @@ public enum RequestError: Error {
 public class Request<Object: Managed, Result: NSFetchRequestResult> {
     
     public private(set) var request: NSFetchRequest<Result>
-    private let container: NSPersistentContainer
-    private let ctx: NSManagedObjectContext
+    private let managedObjectContext: NSManagedObjectContext
+    
     private var isViewContext: Bool {
-        return ctx === container.viewContext
+        return managedObjectContext.concurrencyType == .mainQueueConcurrencyType
     }
     
-    internal init(container: NSPersistentContainer, ctx: NSManagedObjectContext) {
-        self.container = container
-        self.ctx = ctx
+    internal init(managedObjectContext: NSManagedObjectContext) {
+        self.managedObjectContext = managedObjectContext
         request = NSFetchRequest<Result>()
         request.entity = Object.entity()
 
@@ -68,24 +67,24 @@ public extension Request where Result: FetchableType {
     
     public func find(id: Object.PrimaryKey) throws -> Result? {
         request.predicate = primaryKeyEquals(value: id)
-        let objects = try ctx.fetch(request)
+        let objects = try managedObjectContext.fetch(request)
         return objects.first
     }
     
     public func find(ids: [Object.PrimaryKey]) throws -> [Result] {
         request.predicate = NSPredicate(format: "\(Object.primaryKey()) IN %@", ids)
-        return try ctx.fetch(request)
+        return try managedObjectContext.fetch(request)
     }
     
     public func fetch() throws -> [Result] {
-        return try ctx.fetch(request)
+        return try managedObjectContext.fetch(request)
     }
     
     public func frc(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> NSFetchedResultsController<Result> {
         guard isViewContext else {
             fatalError(RequestError.notViewContext.localizedDescription)
         }
-        let f = NSFetchedResultsController(fetchRequest: request, managedObjectContext: ctx, sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName)
+        let f = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName)
         return f
     }
 }
@@ -93,7 +92,7 @@ public extension Request where Result: FetchableType {
 public extension Request where Result: NSNumber {
     
     public func count() throws -> Int {
-        return try ctx.count(for: request)
+        return try managedObjectContext.count(for: request)
     }
     
     public func isExists(id: Object.PrimaryKey) throws -> Bool {
@@ -105,7 +104,7 @@ public extension Request where Result: NSNumber {
 public extension Request where Result: NSDictionary {
     
     public func decode<T: Decodable>(with decoder: JSONDecoder, to decodable: T.Type) throws -> [T] {
-        let dicts = try ctx.fetch(request)
+        let dicts = try managedObjectContext.fetch(request)
         let data = try JSONSerialization.data(withJSONObject: dicts)
         return try decoder.decode([T].self, from: data)
     }

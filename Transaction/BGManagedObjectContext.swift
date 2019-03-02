@@ -8,7 +8,6 @@
 import CoreData
 
 public class BGManagedObjectContext: NSManagedObjectContext {
-    public var context: Context?
     public var changes: ContextChangesInfo?
 }
 
@@ -16,7 +15,6 @@ public class BGPersistentContainer: NSPersistentContainer {
     
     public override func newBackgroundContext() -> NSManagedObjectContext {
         let managedObjectContext = BGManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        managedObjectContext.context = .background
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         return managedObjectContext
     }
@@ -24,20 +22,27 @@ public class BGPersistentContainer: NSPersistentContainer {
 
 public extension NSManagedObjectContext {
     
+    public func transaction(_ block: @escaping (_ t: Transaction) throws -> Void) {
+        let policy = (self.mergePolicy as? NSMergePolicy)?.mergeType
+        self.mergePolicy = NSMergePolicy(merge:.mergeByPropertyStoreTrumpMergePolicyType)
+        let t = Transaction(managedObjectContext: self)
+        do {
+            try t.main(block: block)
+        } catch {
+            assertionFailure(error.localizedDescription)
+        }
+        self.mergePolicy = policy == nil ? self.mergePolicy : NSMergePolicy(merge: policy!)
+    }
+    
     public func perform(_ block: @escaping (_ t: Transaction) throws -> Void) {
         perform {
-//            let t = Transaction(context: .background, container: )
-//            do {
-//                try block(t)
-//            } catch {
-//
-//            }
+            self.transaction(block)
         }
     }
     
     public func performAndWait(_ block: @escaping (_ t: Transaction) throws -> Void) {
         performAndWait {
-            //
+            self.transaction(block)
         }
     }
 }

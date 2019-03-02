@@ -14,8 +14,8 @@ extension Notification.Name {
 }
 
 public struct TransactionInfo {
-    public let context: Context
-    public let managedObjectContext: NSManagedObjectContext
+    public let uuid: UUID
+    internal let managedObjectContext: NSManagedObjectContext
 }
 
 public struct ContextChangesInfo {
@@ -72,26 +72,19 @@ public class TransactionObserver {
     
     @objc private func didChangeContextObjects(_ notification: Notification) {
         let changes = collectContextChanges(from: notification)
-        if let managedObjectContext = notification.object as? BaguaManagedObjectContext {
+        if let managedObjectContext = notification.object as? BGManagedObjectContext {
             managedObjectContext.changes = changes
         }
         onDidChangeContextObjects?(notification.object! as! NSManagedObjectContext, changes)
     }
     
     @objc private func didSaveContext(_ notification: Notification) {
-        if let managedObjectContext = notification.object as? BaguaManagedObjectContext,
-            let changes = managedObjectContext.changes,
-            let context = managedObjectContext.context {
+        guard let managedObjectContext = notification.object as? NSManagedObjectContext else { return }
+        if let baguaContext = managedObjectContext as? BGManagedObjectContext,
+            let changes = baguaContext.changes  {
             onDidSaveContext?(managedObjectContext, changes)
-            let info = TransactionInfo(context: context, managedObjectContext: managedObjectContext)
-            let didExecuteTransactionNotification = Notification(
-                name: .didExecuteTransaction,
-                object: nil,
-                userInfo: [TransactionObserver.NotificationKeys.transactionInfo.rawValue: info]
-            )
-            NotificationCenter.default.post(didExecuteTransactionNotification)
         } else {
-            onDidSaveContext?(notification.object! as! NSManagedObjectContext, collectContextChanges(from: notification))
+            onDidSaveContext?(managedObjectContext, collectContextChanges(from: notification))
         }
     }
     
