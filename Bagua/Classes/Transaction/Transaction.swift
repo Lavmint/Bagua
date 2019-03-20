@@ -13,11 +13,6 @@ public class Transaction {
     public let uuid: UUID
     public let managedObjectContext: NSManagedObjectContext
     
-    ///will be inited only if needed
-    public lazy var observer: TransactionObserver = {
-        return TransactionObserver()
-    }()
-    
     public init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
         self.uuid = UUID()

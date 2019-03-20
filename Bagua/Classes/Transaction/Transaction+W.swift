@@ -7,7 +7,7 @@
 
 import CoreData
 
-extension Transaction {
+public class WriteTransaction: Transaction {
     
     @discardableResult
     public func create<Object: Managed>(_ type: Object.Type, id: Object.PrimaryKey) throws -> Object {

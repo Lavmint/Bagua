@@ -19,7 +19,7 @@
 		FA9E61EC222C050D00F6C166 /* CacheContract .swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61DE222C050D00F6C166 /* CacheContract .swift */; };
 		FA9E61ED222C050D00F6C166 /* Equtable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61DF222C050D00F6C166 /* Equtable.swift */; };
 		FA9E61EE222C050D00F6C166 /* ManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61E0222C050D00F6C166 /* ManagedObject.swift */; };
-		FA9E61F0222C050D00F6C166 /* BGManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61E3222C050D00F6C166 /* BGManagedObjectContext.swift */; };
+		FA9E61F0222C050D00F6C166 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61E3222C050D00F6C166 /* NSManagedObjectContext.swift */; };
 		FA9E61F1222C050D00F6C166 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61E4222C050D00F6C166 /* Request.swift */; };
 		FA9E61F2222C050D00F6C166 /* Transaction+R.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61E5222C050D00F6C166 /* Transaction+R.swift */; };
 		FA9E61F3222C050D00F6C166 /* Transaction+W.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9E61E6222C050D00F6C166 /* Transaction+W.swift */; };
@@ -69,7 +69,7 @@
 		FA9E61DE222C050D00F6C166 /* CacheContract .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CacheContract .swift"; sourceTree = "<group>"; };
 		FA9E61DF222C050D00F6C166 /* Equtable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equtable.swift; sourceTree = "<group>"; };
 		FA9E61E0222C050D00F6C166 /* ManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObject.swift; sourceTree = "<group>"; };
-		FA9E61E3222C050D00F6C166 /* BGManagedObjectContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGManagedObjectContext.swift; sourceTree = "<group>"; };
+		FA9E61E3222C050D00F6C166 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		FA9E61E4222C050D00F6C166 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		FA9E61E5222C050D00F6C166 /* Transaction+R.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Transaction+R.swift"; sourceTree = "<group>"; };
 		FA9E61E6222C050D00F6C166 /* Transaction+W.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Transaction+W.swift"; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 				FA9E61E5222C050D00F6C166 /* Transaction+R.swift */,
 				FA9E61E6222C050D00F6C166 /* Transaction+W.swift */,
 				FA9E61E8222C050D00F6C166 /* TransactionObserver.swift */,
-				FA9E61E3222C050D00F6C166 /* BGManagedObjectContext.swift */,
+				FA9E61E3222C050D00F6C166 /* NSManagedObjectContext.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -364,7 +364,7 @@
 				F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */,
 				FA9E61F3222C050D00F6C166 /* Transaction+W.swift in Sources */,
 				FA9E61F5222C050D00F6C166 /* TransactionObserver.swift in Sources */,
-				FA9E61F0222C050D00F6C166 /* BGManagedObjectContext.swift in Sources */,
+				FA9E61F0222C050D00F6C166 /* NSManagedObjectContext.swift in Sources */,
 				FA9E61F2222C050D00F6C166 /* Transaction+R.swift in Sources */,
 				FA9E61F1222C050D00F6C166 /* Request.swift in Sources */,
 				FA9E61E9222C050D00F6C166 /* Collection.swift in Sources */,

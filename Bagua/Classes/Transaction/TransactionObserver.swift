@@ -24,7 +24,6 @@ public struct ContextChangesInfo {
     public fileprivate(set) var deletes = Set<NSManagedObject>()
     public fileprivate(set) var refreshes = Set<NSManagedObject>()
     public fileprivate(set) var invalidates = Set<NSManagedObject>()
-    public fileprivate(set) var changedKeys = Set<String>()
 }
 
 public class TransactionObserver {
@@ -37,7 +36,7 @@ public class TransactionObserver {
     public var onDidExecuteTransaction: ((TransactionInfo) -> Void)?
     public var onWillSaveContext: ((NSManagedObjectContext) -> Void)?
     public var onDidChangeContextObjects: ((NSManagedObjectContext, ContextChangesInfo) -> Void)?
-    public var onDidSaveContext: ((NSManagedObjectContext, ContextChangesInfo) -> Void)?
+    public var onDidSaveContext: ((NSManagedObjectContext) -> Void)?
     
     public init() {
         NotificationCenter.default.addObserver(
@@ -71,27 +70,19 @@ public class TransactionObserver {
     }
     
     @objc private func didChangeContextObjects(_ notification: Notification) {
-        let changes = collectContextChanges(from: notification)
-        if let managedObjectContext = notification.object as? BGManagedObjectContext {
-            managedObjectContext.changes = changes
-        }
-        onDidChangeContextObjects?(notification.object! as! NSManagedObjectContext, changes)
+        guard let managedObjectContext = notification.object as? NSManagedObjectContext else { return }
+        onDidChangeContextObjects?(managedObjectContext, collectContextChanges(from: notification))
     }
     
     @objc private func didSaveContext(_ notification: Notification) {
         guard let managedObjectContext = notification.object as? NSManagedObjectContext else { return }
-        if let baguaContext = managedObjectContext as? BGManagedObjectContext,
-            let changes = baguaContext.changes  {
-            onDidSaveContext?(managedObjectContext, changes)
-        } else {
-            onDidSaveContext?(managedObjectContext, collectContextChanges(from: notification))
-        }
+        onDidSaveContext?(managedObjectContext)
     }
     
     private func collectContextChanges(from notification: Notification) -> ContextChangesInfo {
         
         guard let userInfo = notification.userInfo else {
-            return ContextChangesInfo(inserts: [], updates: [], deletes: [], refreshes: [], invalidates: [], changedKeys: [])
+            return ContextChangesInfo(inserts: [], updates: [], deletes: [], refreshes: [], invalidates: [])
         }
         
         var changes = ContextChangesInfo()
@@ -121,11 +112,7 @@ public class TransactionObserver {
             changes.refreshes = refreshes
             objects = objects.union(refreshes)
         }
-        
-        for o in objects {
-            changes.changedKeys = changes.changedKeys.union(o.changedValues().keys)
-        }
-        
+    
         return changes
     }
     
@@ -165,71 +152,128 @@ public class TransactionObserver {
     }
 }
 
-public extension ContextChangesInfo {
+public enum ChangeType: CaseIterable {
+    case update
+    case insert
+    case invalidate
+    case delete
+    case refresh
+}
+
+public class Filter {
     
-    public enum ChangeType: CaseIterable {
-        case update
-        case insert
-        case invalidate
-        case delete
-        case refresh
-    }
+    let contextChanges: ContextChangesInfo
+    private(set) var changedManagedObjects: Set<NSManagedObject>
     
-    public func trigger<T: Managed>(track: T.Type, forKeys keys: [String] = [], changes changeTypes: [ChangeType] = [], ids: [T.PrimaryKey] = [], _ block: @escaping (_ ids: [T.PrimaryKey]) -> Void) {
-        
-        let types = !changeTypes.isEmpty ? changeTypes : ChangeType.allCases
-        var changes: [Set<NSManagedObject>] = []
-        for t in types {
+    private(set) var changesFilterResult: Set<NSManagedObject>?
+    private(set) var typeFilterResult: Set<NSManagedObject>?
+    private(set) var valueFilterResult: Set<NSManagedObject>?
+    
+    init(contextChanges: ContextChangesInfo) {
+        self.contextChanges = contextChanges
+        self.changedManagedObjects = Set<NSManagedObject>()
+        for t in ChangeType.allCases {
             switch t {
             case .update:
-                changes.append(updates)
+                changedManagedObjects = changedManagedObjects.union(contextChanges.updates)
             case .insert:
-                changes.append(inserts)
+                changedManagedObjects = changedManagedObjects.union(contextChanges.inserts)
             case .invalidate:
-                changes.append(invalidates)
+                changedManagedObjects = changedManagedObjects.union(contextChanges.invalidates)
             case .delete:
-                changes.append(deletes)
+                changedManagedObjects = changedManagedObjects.union(contextChanges.deletes)
             case .refresh:
-                changes.append(refreshes)
-            }
-        }
-        
-        l1: for change in changes {
-            for upd in change {
-                
-                guard let obj = upd as? T else { continue }
-                
-                var isConformedId = true
-                var isConformedKey = true
-                
-                if !ids.isEmpty {
-                    isConformedId = ids.contains(obj.primaryId)
-                }
-                
-                if !keys.isEmpty {
-                    var isChangedKey = false
-                    for key in self.changedKeys {
-                        if keys.contains(key) {
-                            isChangedKey = true
-                            break
-                        }
-                    }
-                    isConformedKey = isChangedKey
-                }
-                
-                if isConformedId && isConformedKey {
-                    var tasks = Set<T>()
-                    for ch in changes {
-                        for obj in ch {
-                            guard let o = obj as? T, obj.value(forKey: T.primaryKey()) != nil else { continue }
-                            tasks.insert(o)
-                        }
-                    }
-                    block(tasks.map({ $0.primaryId }))
-                    break l1
-                }
+                changedManagedObjects = changedManagedObjects.union(contextChanges.refreshes)
             }
         }
     }
     
+    public func select(changes changeTypes: [ChangeType]) -> Filter {
+        var changes: Set<NSManagedObject> = []
+        for t in changeTypes {
+            switch t {
+            case .update:
+                changes = changes.union(contextChanges.updates)
+            case .insert:
+                changes = changes.union(contextChanges.inserts)
+            case .invalidate:
+                changes = changes.union(contextChanges.invalidates)
+            case .delete:
+                changes = changes.union(contextChanges.deletes)
+            case .refresh:
+                changes = changes.union(contextChanges.refreshes)
+            }
+        }
+        changesFilterResult = changes
+        return self
+    }
+    
+    public func select<T: Managed>(type: T.Type, ids: [T.PrimaryKey]? = nil) -> Filter {
+        var typeFilterResult = Set<NSManagedObject>()
+        for object in changedManagedObjects {
+            guard let managed = object as? T else { continue }
+            if let IDs = ids {
+                if IDs.contains(managed.primaryId) {
+                    typeFilterResult.insert(object)
+                } else {
+                    continue
+                }
+            } else {
+                typeFilterResult.insert(object)
+            }
+        }
+        self.typeFilterResult = typeFilterResult
+        return self
+    }
+    
+    public func select<T: Equatable>(value: T, forKey key: String) -> Filter {
+        var valueFilterResult = Set<NSManagedObject>()
+        for object in changedManagedObjects {
+            guard let val = object.changedValues()[key] as? T else { continue }
+            guard val == value else { continue }
+            valueFilterResult.insert(object)
+        }
+        self.valueFilterResult = valueFilterResult
+        return self
+    }
+    
+    public func select(values: [String]) -> Filter {
+        var valueFilterResult = Set<NSManagedObject>()
+        for object in changedManagedObjects {
+            var set = Set<String>(values)
+            set = set.intersection(object.changedValues().keys)
+            guard !set.isEmpty else { continue }
+            valueFilterResult.insert(object)
+        }
+        self.valueFilterResult = valueFilterResult
+        return self
+    }
+    
+    public func resolve() -> Set<NSManagedObject>? {
+        
+        var result = Set<NSManagedObject>()
+        
+        if let filter = changesFilterResult {
+            result = filter
+        } else {
+            result = changedManagedObjects
+        }
+        
+        if let filter = typeFilterResult {
+            result = result.intersection(filter)
+        }
+        
+        if let filter = valueFilterResult {
+            result = result.intersection(filter)
+        }
+        
+        return result.isEmpty ? nil : result
+    }
+}
+
+public extension ContextChangesInfo {
+    
+    public var filter: Filter {
+        return Filter(contextChanges: self)
+    }
 }

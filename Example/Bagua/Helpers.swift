@@ -13,7 +13,7 @@ public enum db {
     
     static let bagua: NSPersistentContainer = {
         
-        let container = BGPersistentContainer(
+        let container = NSPersistentContainer(
             name: "Bagua",
             managedObjectModel: NSManagedObjectModel(
                 contentsOf: Bundle.main.url(

@@ -22,37 +22,51 @@ class ViewController: UIViewController {
         observer.onWillExecuteTransaction = { _ in
             print("onWillExecuteTransaction")
         }
+        
         observer.onDidExecuteTransaction = { _ in
             print("onDidExecuteTransaction")
         }
+        
         observer.onWillSaveContext = { _ in
             print("onWillSaveContext")
         }
-        observer.onDidChangeContextObjects = { _, changes in
-            print("onDidChangeContextObjects")
+        
+        observer.onDidSaveContext = { _ in
+            print("onDidSaveContext")
         }
 
-        observer.onDidSaveContext = { _, changes in
+        observer.onDidChangeContextObjects = { _, changes in
 
-            changes.trigger(track: UserMO.self, forKeys: [
-                #keyPath(UserMO.name)
-            ], changes: [.update], ids: ["+79349569345"]) { ids in
+            if let object = changes.filter
+                .select(type: UserMO.self, ids: ["+79349569345"])
+                .select(changes: [.update])
+                .select(value: "Pitter is not a Pitter", forKey: #keyPath(UserMO.name))
+                .resolve()?.first {
+                
                 self.debug()
-                print(changes.changedKeys)
+                print(object.changedValues())
             }
-
-            changes.trigger(track: UserMO.self, forKeys: [
-                #keyPath(UserMO.surname)
-            ], changes: [.update], ids: ["+63234535356"]) { ids in
+            
+            if let object = changes.filter
+                .select(type: UserMO.self, ids: ["+63234535356"])
+                .select(changes: [.update])
+                .select(values: [
+                    #keyPath(UserMO.surname)
+                ])
+                .resolve()?.first {
+                
                 self.debug()
-                print(changes.changedKeys)
+                print(object.changedValues())
             }
-
-            changes.trigger(track: UserMO.self, changes: [.insert, .update, .delete]) { ids in
+            
+            if let _ = changes.filter
+                .select(type: UserMO.self)
+                .select(changes: [.insert, .update, .delete])
+                .resolve() {
+                
                 self.debug()
-                print(changes.changedKeys)
             }
-
+            
         }
 
         do {
@@ -64,12 +78,9 @@ class ViewController: UIViewController {
 
     func debug() {
         db.bagua.performBackgroundTask { (context) in
-            context.transaction({ (t) in
-                print("====== PRINTING ======")
-                t.dictionaries(UserMO.self).configure({ (r) in
-                    r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
-                }).print()
-            })
+            context.bga.dictionaries(UserMO.self).configure({ (r) in
+                r.sortDescriptors = [NSSortDescriptor(key: #keyPath(UserMO.name), ascending: true)]
+            }).print()
         }
     }
 
@@ -84,48 +95,33 @@ class ViewController: UIViewController {
             User(phone: "+33432535325", name: "Marceline", surname: "the Vampire Queen", sex: .female)
         ])
         
-        db.bagua.viewContext.transaction { (t) in
-            print("Start")
-        }
-        
-        db.bagua.newBackgroundContext().performAndWait { (t) in
+        db.bagua.newBackgroundContext().write { (t) in
             try t.drop()
             try t.update(objects: users)
         }
 
         db.bagua.performBackgroundTask { (context) in
-            context.transaction({ (t) in
-                
+            context.write({ (t) in
                 let user = try t.objects(User.self).find(id: "+79349569345")!.object!
                 user.name = "Pitter is not a Pitter"
                 try t.update(object: user)
-                
-                t.observer.onDidExecuteTransaction = { info in
-                    guard info.uuid == t.uuid else { return }
-                    self.debug()
-                }
             })
         }
         
         db.bagua.performBackgroundTask { (context) in
-            context.transaction({ (t) in
+            context.write({ (t) in
                 let user = try t.objects(UserMO.self).find(id: "+63234535356")!.object!
                 user.surname = "Finn is not Finn"
                 try t.update(object: user)
             })
         }
         
-        db.bagua.newBackgroundContext().perform { (t) in
+        db.bagua.newBackgroundContext().write { (t) in
             for _ in 0..<1000 {
                 for (j, u) in users.enumerated() {
                     u.name = j % 2 == 0 ? "odd" : "even"
                 }
                 try t.update(objects: users)
-            }
-            t.observer.onDidExecuteTransaction = { info in
-                guard info.uuid == t.uuid else { return }
-                print("===== LONG ASYNC OPERATION ====")
-                self.debug()
             }
         }
 
