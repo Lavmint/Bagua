@@ -49,17 +49,15 @@ public class Request<Object: Managed, Result: NSFetchRequestResult> {
     }
     
     private func primaryKeyEquals(value: CVarArg) -> NSPredicate {
-        let keyFormat: String
         switch value {
         case is NSNumber:
-            keyFormat = "%d"
+            return NSPredicate(format: "\(Object.primaryKey()) == %d", value)
         case is NSString:
-            keyFormat = "%@"
+            return NSPredicate(format: "\(Object.primaryKey()) == %@", value)
         default:
-            assertionFailure()
-            keyFormat = ""
+            assertionFailure("This is preventing from failure in prod, but this type is not defined: \(Object.PrimaryKey.self)")
+            return NSPredicate()
         }
-        return NSPredicate(format: "\(Object.primaryKey()) == \(keyFormat)", value)
     }
 }
 
