@@ -20,7 +20,7 @@ public enum RequestError: Error {
 public class Request<Object: Managed, Result: NSFetchRequestResult> {
     
     public private(set) var request: NSFetchRequest<Result>
-    private let managedObjectContext: NSManagedObjectContext
+    public let managedObjectContext: NSManagedObjectContext
     
     private var isViewContext: Bool {
         return managedObjectContext.concurrencyType == .mainQueueConcurrencyType
