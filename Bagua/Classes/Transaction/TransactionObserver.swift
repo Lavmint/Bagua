@@ -26,17 +26,29 @@ public struct ContextChangesInfo {
     public fileprivate(set) var invalidates = Set<NSManagedObject>()
 }
 
+public protocol TransactionObservable: class {
+    func onWillExecuteTransaction(info: TransactionInfo)
+    func onDidExecuteTransaction(info: TransactionInfo)
+    func onWillSaveContext(managedObjectContext: NSManagedObjectContext)
+    func onDidChangeContextObjects(managedObjectContext: NSManagedObjectContext, changes: ContextChangesInfo)
+    func onDidSaveContext(managedObjectContext: NSManagedObjectContext)
+}
+
+public extension TransactionObservable {
+    public func onWillExecuteTransaction(info: TransactionInfo) {}
+    public func onDidExecuteTransaction(info: TransactionInfo) {}
+    public func onWillSaveContext(managedObjectContext: NSManagedObjectContext) {}
+    public func onDidChangeContextObjects(managedObjectContext: NSManagedObjectContext, changes: ContextChangesInfo) {}
+    public func onDidSaveContext(managedObjectContext: NSManagedObjectContext) {}
+}
+
 public class TransactionObserver {
     
     enum NotificationKeys: String {
         case transactionInfo
     }
     
-    public var onWillExecuteTransaction: ((TransactionInfo) -> Void)?
-    public var onDidExecuteTransaction: ((TransactionInfo) -> Void)?
-    public var onWillSaveContext: ((NSManagedObjectContext) -> Void)?
-    public var onDidChangeContextObjects: ((NSManagedObjectContext, ContextChangesInfo) -> Void)?
-    public var onDidSaveContext: ((NSManagedObjectContext) -> Void)?
+    public weak var observable: TransactionObservable?
     
     public init() {
         NotificationCenter.default.addObserver(
@@ -56,27 +68,28 @@ public class TransactionObserver {
     @objc private func willExecuteTransaction(_ notification: Notification) {
         let info = unboxTransactionInfo(from: notification)
         subscribe(context: info.managedObjectContext)
-        onWillExecuteTransaction?(info)
+        observable?.onWillExecuteTransaction(info: info)
     }
     
     @objc private func didExecuteTransaction(_ notification: Notification) {
         let info = unboxTransactionInfo(from: notification)
         unsubscribe(context: info.managedObjectContext)
-        onDidExecuteTransaction?(info)
+        observable?.onDidExecuteTransaction(info: info)
     }
     
     @objc private func willSaveContext(_ notification: Notification) {
-        onWillSaveContext?(notification.object! as! NSManagedObjectContext)
+        guard let managedObjectContext = notification.object as? NSManagedObjectContext else { return }
+        observable?.onWillSaveContext(managedObjectContext: managedObjectContext)
     }
     
     @objc private func didChangeContextObjects(_ notification: Notification) {
         guard let managedObjectContext = notification.object as? NSManagedObjectContext else { return }
-        onDidChangeContextObjects?(managedObjectContext, collectContextChanges(from: notification))
+        observable?.onDidChangeContextObjects(managedObjectContext: managedObjectContext, changes: collectContextChanges(from: notification))
     }
     
     @objc private func didSaveContext(_ notification: Notification) {
         guard let managedObjectContext = notification.object as? NSManagedObjectContext else { return }
-        onDidSaveContext?(managedObjectContext)
+        observable?.onDidSaveContext(managedObjectContext: managedObjectContext)
     }
     
     private func collectContextChanges(from notification: Notification) -> ContextChangesInfo {

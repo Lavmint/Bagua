@@ -18,57 +18,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        observer.onWillExecuteTransaction = { _ in
-            print("onWillExecuteTransaction")
-        }
-        
-        observer.onDidExecuteTransaction = { _ in
-            print("onDidExecuteTransaction")
-        }
-        
-        observer.onWillSaveContext = { _ in
-            print("onWillSaveContext")
-        }
-        
-        observer.onDidSaveContext = { _ in
-            print("onDidSaveContext")
-        }
-
-        observer.onDidChangeContextObjects = { _, changes in
-
-            if let object = changes.filter
-                .select(type: UserMO.self, ids: ["+79349569345"])
-                .select(changes: [.update])
-                .select(value: "Pitter is not a Pitter", forKey: #keyPath(UserMO.name))
-                .resolve()?.first {
-                
-                self.debug()
-                print(object.changedValues())
-            }
-            
-            if let object = changes.filter
-                .select(type: UserMO.self, ids: ["+63234535356"])
-                .select(changes: [.update])
-                .select(values: [
-                    #keyPath(UserMO.surname)
-                ])
-                .resolve()?.first {
-                
-                self.debug()
-                print(object.changedValues())
-            }
-            
-            if let _ = changes.filter
-                .select(type: UserMO.self)
-                .select(changes: [.insert, .update, .delete])
-                .resolve() {
-                
-                self.debug()
-            }
-            
-        }
-
+        observer.observable = self
         do {
             try transactions()
         } catch {
@@ -130,4 +80,57 @@ class ViewController: UIViewController {
 
     }
 
+}
+
+extension ViewController: TransactionObservable {
+    
+    func onWillExecuteTransaction(info: TransactionInfo) {
+        print(#function)
+    }
+    
+    func onDidExecuteTransaction(info: TransactionInfo) {
+        print(#function)
+    }
+    
+    func onWillSaveContext(managedObjectContext: NSManagedObjectContext) {
+        print(#function)
+    }
+    
+    func onDidSaveContext(managedObjectContext: NSManagedObjectContext) {
+        print(#function)
+    }
+    
+    func onDidChangeContextObjects(managedObjectContext: NSManagedObjectContext, changes: ContextChangesInfo) {
+        
+        if let object = changes.filter
+            .select(type: UserMO.self, ids: ["+79349569345"])
+            .select(changes: [.update])
+            .select(value: "Pitter is not a Pitter", forKey: #keyPath(UserMO.name))
+            .resolve()?.first {
+            
+            self.debug()
+            print(object.changedValues())
+        }
+        
+        if let object = changes.filter
+            .select(type: UserMO.self, ids: ["+63234535356"])
+            .select(changes: [.update])
+            .select(values: [
+                #keyPath(UserMO.surname)
+                ])
+            .resolve()?.first {
+            
+            self.debug()
+            print(object.changedValues())
+        }
+        
+        if let _ = changes.filter
+            .select(type: UserMO.self)
+            .select(changes: [.insert, .update, .delete])
+            .resolve() {
+            
+            self.debug()
+        }
+        
+    }
 }
