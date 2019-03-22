@@ -27,30 +27,36 @@ public extension NSManagedObjectContext {
         self.mergePolicy = policy == nil ? self.mergePolicy : NSMergePolicy(merge: policy!)
     }
     
-    public func perform(_ block: @escaping () throws -> Void) {
-        do {
-            try block()
-        } catch {
-            assertionFailure(error.localizedDescription)
+    public func performWithThrowable(_ block: @escaping () throws -> Void) {
+        perform {
+            do {
+                try block()
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
         }
     }
     
-    public func performAndWait(_ block: () throws -> Void) {
-        do {
-            try block()
-        } catch {
-            assertionFailure(error.localizedDescription)
+    public func performAndWaitWithThrowable(_ block: () throws -> Void) {
+        performAndWait {
+            do {
+                try block()
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
         }
     }
 }
 
 public extension NSPersistentContainer {
     
-    public func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) throws -> Void) {
-        do {
-            try block(newBackgroundContext())
-        } catch {
-            assertionFailure(error.localizedDescription)
+    public func performThrowableBackgroundTask(_ block: @escaping (NSManagedObjectContext) throws -> Void) {
+        performBackgroundTask { (context) in
+            do {
+                try block(context)
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
         }
     }
 }
