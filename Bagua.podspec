@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Bagua'
-  s.version          = '0.3.14'
+  s.version          = '0.4.0'
   s.summary          = 'Swift wrapper around CoreData stack inspired by Realm'
 
   s.homepage         = 'https://github.com/Lavmint/Bagua'
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/Lavmint/Bagua.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   
   s.source_files = 'Bagua/Classes/**/*'
   s.frameworks = 'CoreData'

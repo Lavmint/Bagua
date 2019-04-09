@@ -54,7 +54,7 @@ public class Transaction {
 //MARK: - Write
 public extension Transaction {
     
-    public func write(_ block: ((_ w: WriteTransaction) throws -> Void)) throws {
+    func write(_ block: ((_ w: WriteTransaction) throws -> Void)) throws {
         try block(WriteTransaction(container: container, ctx: ctx))
         if ctx.hasChanges {
             do {

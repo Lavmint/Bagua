@@ -48,7 +48,7 @@ public class Request<Object: Managed, Result: NSFetchRequestResult> {
 
 public extension Request where Result: FetchableType {
     
-    public func find(id: Object.PrimaryKey) throws -> Result? {
+    func find(id: Object.PrimaryKey) throws -> Result? {
         let p = id is NSNumber ? "%d" : "%@"
         request.predicate = NSPredicate(format: "\(Object.primaryKey()) == \(p)", id)
         let objects = try ctx.fetch(request)
@@ -58,16 +58,16 @@ public extension Request where Result: FetchableType {
         return objects.first
     }
     
-    public func find(ids: [Object.PrimaryKey]) throws -> [Result] {
+    func find(ids: [Object.PrimaryKey]) throws -> [Result] {
         request.predicate = NSPredicate(format: "\(Object.primaryKey()) IN %@", ids)
         return try ctx.fetch(request)
     }
     
-    public func fetch() throws -> [Result] {
+    func fetch() throws -> [Result] {
         return try ctx.fetch(request)
     }
     
-    public func frc(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> NSFetchedResultsController<Result> {
+    func frc(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> NSFetchedResultsController<Result> {
         guard isViewContext else {
             fatalError("Oops you must use viewContext")
         }
@@ -78,11 +78,11 @@ public extension Request where Result: FetchableType {
 
 public extension Request where Result: NSNumber {
     
-    public func count() throws -> Int {
+    func count() throws -> Int {
         return try ctx.count(for: request)
     }
     
-    public func isExists(id: Object.PrimaryKey) throws -> Bool {
+    func isExists(id: Object.PrimaryKey) throws -> Bool {
         let p = id is NSNumber ? "%d" : "%@"
         request.predicate = NSPredicate(format: "\(Object.primaryKey()) == \(p)", id)
         let c = try count()
@@ -95,13 +95,13 @@ public extension Request where Result: NSNumber {
 
 public extension Request where Result: NSDictionary {
     
-    public func decode<T: Decodable>(with decoder: JSONDecoder, to decodable: T.Type) throws -> [T] {
+    func decode<T: Decodable>(with decoder: JSONDecoder, to decodable: T.Type) throws -> [T] {
         let dicts = try ctx.fetch(request)
         let data = try JSONSerialization.data(withJSONObject: dicts)
         return try decoder.decode([T].self, from: data)
     }
     
-    public func print() {
+    func print() {
         do {
             let dictionary = try fetch()
             let data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
@@ -115,7 +115,7 @@ public extension Request where Result: NSDictionary {
 
 public extension Request where Result: Managed, Result == Object {
     
-    public func recycler(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> RecyclerController<Object> {
+    func recycler(sectionNameKeyPath: String? = nil, cacheName: String? = nil) -> RecyclerController<Object> {
         guard isViewContext else {
             fatalError("Oops you must use viewContext")
         }

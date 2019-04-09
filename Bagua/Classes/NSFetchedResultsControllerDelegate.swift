@@ -7,18 +7,19 @@
 //
 
 import CoreData
+import UIKit
 
 public extension NSFetchedResultsControllerDelegate {
     
-    public func defaultWillChangeContentHandler(in tableView: UITableView?) {
+    func defaultWillChangeContentHandler(in tableView: UITableView?) {
         tableView?.beginUpdates()
     }
     
-    public func defaultDidChangeContentHandler(in tableView: UITableView?) {
+    func defaultDidChangeContentHandler(in tableView: UITableView?) {
         tableView?.endUpdates()
     }
     
-    public func defaultObjectActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, at indexPath: IndexPath?, newIndexPath: IndexPath?, animations: [NSFetchedResultsChangeType: UITableView.RowAnimation]? = nil) {
+    func defaultObjectActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, at indexPath: IndexPath?, newIndexPath: IndexPath?, animations: [NSFetchedResultsChangeType: UITableView.RowAnimation]? = nil) {
         
         let animationForAction = animations ?? [
             .insert: .fade,
@@ -38,10 +39,12 @@ public extension NSFetchedResultsControllerDelegate {
         case .move:
             tableView?.deleteRows(at: [indexPath!], with: animation)
             tableView?.insertRows(at: [newIndexPath!], with: animation)
+        @unknown default:
+            break
         }
     }
     
-    public func defaultSectionActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, atSectionIndex sectionIndex: Int, animations: [NSFetchedResultsChangeType: UITableView.RowAnimation]? = nil) {
+    func defaultSectionActionHandler(_ action: NSFetchedResultsChangeType, in tableView: UITableView?, atSectionIndex sectionIndex: Int, animations: [NSFetchedResultsChangeType: UITableView.RowAnimation]? = nil) {
         
         let animationForAction = animations ?? [
             .insert: .fade,
