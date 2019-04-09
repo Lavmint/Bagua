@@ -30,10 +30,6 @@ final public class User {
 
 extension User: InputCacheContract {
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(managedId)
-    }
-
     public var managedId: String {
         return phone
     }

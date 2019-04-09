@@ -28,6 +28,13 @@ public protocol InputCacheContract: Hashable, CustomStringConvertible {
 }
 
 extension InputCacheContract {
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(managedId)
+    }
+}
+
+extension InputCacheContract {
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.managedId == rhs.managedId
