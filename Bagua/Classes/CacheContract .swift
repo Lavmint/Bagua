@@ -16,7 +16,7 @@ public protocol OutputCacheContract {
 
 public extension OutputCacheContract where Self == Input.Output {
     
-    public var object: Input? {
+    var object: Input? {
         return Input.init(mo: self)
     }
 }
@@ -28,11 +28,7 @@ public protocol InputCacheContract: Hashable, CustomStringConvertible {
 }
 
 extension InputCacheContract {
-    
-    public var hashValue: Int {
-        return managedId.hashValue
-    }
-    
+
     public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.managedId == rhs.managedId
     }
