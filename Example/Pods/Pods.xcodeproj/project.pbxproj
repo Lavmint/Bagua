@@ -12,7 +12,7 @@
 		2A33E997D625F1127BB7BAD4F48591C8 /* ManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */; };
 		30FE881440D8987923372F0B039D5769 /* Pods-Bagua_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D878528055B0C0103D6B143589EBFBF8 /* Pods-Bagua_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */; };
-		398EBAB1221E990F00B54AE4 /* Equtable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398EBAB0221E990F00B54AE4 /* Equtable.swift */; };
+		3948481D225CAF6500AB0FC6 /* Equtable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3948481C225CAF6500AB0FC6 /* Equtable.swift */; };
 		51479C8D0339DADFDF7896D59892A988 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */; };
 		5AC8CA4BC53BBAF39FBF1F3C3656F506 /* Pods-Bagua_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D542E0F1C79AFC4C1A544083233A92 /* Pods-Bagua_Example-dummy.m */; };
 		5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */; };
@@ -47,7 +47,7 @@
 		368F369C22F27AAF8E9DD35F1CF7A0A7 /* CacheContract .swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CacheContract .swift"; path = "Bagua/Classes/CacheContract .swift"; sourceTree = "<group>"; };
 		36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecyclerController.swift; path = Bagua/Classes/RecyclerController.swift; sourceTree = "<group>"; };
 		37B1DD84EBF0E9265BD8786DE525C709 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		398EBAB0221E990F00B54AE4 /* Equtable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equtable.swift; sourceTree = "<group>"; };
+		3948481C225CAF6500AB0FC6 /* Equtable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Equtable.swift; path = Bagua/Classes/Equtable.swift; sourceTree = "<group>"; };
 		4CE7BEBF7A4D0B54C76440B1A8AB70AF /* Bagua-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bagua-umbrella.h"; sourceTree = "<group>"; };
 		5076BB38F7336A9275DC7EFCCB88A250 /* Pods_Bagua_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bagua_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		516F4073CAB1155265C91D945A145581 /* ManagedObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ManagedObject.swift; path = Bagua/Classes/ManagedObject.swift; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 				619BCA3631F0F19AB79D34BB3E93ECF8 /* NSFetchedResultsControllerDelegate.swift */,
 				36943B76ADB16F7C45D36D9E92725E61 /* RecyclerController.swift */,
 				C2E2C0AEE65676D5FA8D1F6249C69B83 /* Transaction.swift */,
-				398EBAB0221E990F00B54AE4 /* Equtable.swift */,
+				3948481C225CAF6500AB0FC6 /* Equtable.swift */,
 				6A98B8B388E22951CDDBF1075280A60A /* Request.swift */,
 				4CB7C473FE760FA567CE862350D8FBB4 /* Pod */,
 				7BE2E2C731D123E2610C823DB9185F0C /* Support Files */,
@@ -323,7 +323,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398EBAB1221E990F00B54AE4 /* Equtable.swift in Sources */,
 				F496D907DA8C22D54CBF9FC19FC1B65B /* Bagua-dummy.m in Sources */,
 				FA48315621EF46A800BECE0E /* DAOListener.swift in Sources */,
 				5BAC89DA765B70E7739D81185DC0D17D /* CacheContract .swift in Sources */,
@@ -333,6 +332,7 @@
 				37258510E783F6103EB456BCC6E84A5C /* NSFetchedResultsControllerDelegate.swift in Sources */,
 				28FC0A709CEE3215B067E3A7BC9BBE0D /* RecyclerController.swift in Sources */,
 				795057ADD2825E9DFFF56033FCEE6B83 /* Request.swift in Sources */,
+				3948481D225CAF6500AB0FC6 /* Equtable.swift in Sources */,
 				51479C8D0339DADFDF7896D59892A988 /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
