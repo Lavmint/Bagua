@@ -187,7 +187,6 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 555C72KGU5;
 						LastSwiftMigration = 1020;
 					};
 				};
@@ -417,7 +416,7 @@
 			baseConfigurationReference = 8C130B7DC5E59B5813BB934E /* Pods-Bagua_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 555C72KGU5;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Bagua/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -432,7 +431,7 @@
 			baseConfigurationReference = 3FA65FF26A722971E6ACA2C0 /* Pods-Bagua_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 555C72KGU5;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Bagua/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
